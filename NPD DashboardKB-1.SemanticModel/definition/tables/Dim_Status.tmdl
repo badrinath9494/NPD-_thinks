@@ -1,0 +1,29 @@
+table Dim_Status
+	lineageTag: b2953494-8465-435a-b975-5a3bc3342003
+
+	column Status
+		dataType: string
+		lineageTag: e14f9620-3025-4bd2-bff0-f6657263fae1
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Status = m
+		mode: import
+		source =
+				let
+				    PhaseStatus = Table.RenameColumns(Table.SelectColumns(Phases, {"status"}), {{"status", "Status"}}),
+				    ActionStatus = Table.SelectColumns(#"Action_Plan", {"Status"}),
+				    ActionStatus1 = Table.SelectColumns(#"Action_plan-1", {"Status"}),
+				    CmStatus = Table.RenameColumns(Table.SelectColumns(#"Projects-CM", {"Counter Measure Status"}), {{"Counter Measure Status", "Status"}}),
+				    Combined = Table.Combine({PhaseStatus, ActionStatus, ActionStatus1, CmStatus}),
+				    NoBlanks = Table.SelectRows(Combined, each [Status] <> null and Text.Trim(Text.From([Status])) <> ""),
+				    DistinctRows = Table.Distinct(NoBlanks, {"Status"})
+				in
+				    DistinctRows
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

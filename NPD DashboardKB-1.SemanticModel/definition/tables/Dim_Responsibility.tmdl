@@ -1,0 +1,27 @@
+table Dim_Responsibility
+	lineageTag: 0148480c-0a60-4506-937e-69b2f717e7ff
+
+	column Responsibility
+		dataType: string
+		lineageTag: 5439fb94-8e64-4e04-a9f0-66a8d18913c4
+		summarizeBy: none
+		sourceColumn: Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Responsibility = m
+		mode: import
+		source =
+				let
+				    FromBridge = Table.SelectColumns(#"Bridge-Resp", {"Responsibility"}),
+				    FromProjects = Table.SelectColumns(#"Projects-CM", {"Responsibility"}),
+				    Combined = Table.Combine({FromBridge, FromProjects}),
+				    NoBlanks = Table.SelectRows(Combined, each [Responsibility] <> null and Text.Trim([Responsibility]) <> ""),
+				    DistinctRows = Table.Distinct(NoBlanks, {"Responsibility"})
+				in
+				    DistinctRows
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

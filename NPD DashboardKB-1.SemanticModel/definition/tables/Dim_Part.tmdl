@@ -1,0 +1,59 @@
+table Dim_Part
+	lineageTag: 9e6e6ec0-57f6-445e-9148-7f5f28054e07
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 8a6dfd41-5992-4d24-96cb-622089cccb50
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Name'
+		dataType: string
+		lineageTag: d998b2d3-bd15-4014-b2d4-d7e88597d670
+		summarizeBy: none
+		sourceColumn: Part Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Process
+		dataType: string
+		lineageTag: d8fc2f8d-f4cd-4b8c-ab6d-44290a4a4a67
+		summarizeBy: none
+		sourceColumn: Process
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 724f63af-3780-4535-94bc-8ed33513c4b4
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: c3e1f5ba-2440-4e95-a093-8c6eb6951747
+		summarizeBy: none
+		sourceColumn: Project ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Part = m
+		mode: import
+		source =
+				let
+				    Source = #"Part Details",
+				    KeepColumns = Table.SelectColumns(Source, {"Part Number", "Part Name", "Process", "Customer ID", "Project ID"}),
+				    NoBlanks = Table.SelectRows(KeepColumns, each [Part Number] <> null and Text.Trim([Part Number]) <> ""),
+				    DistinctRows = Table.Distinct(NoBlanks, {"Part Number"})
+				in
+				    DistinctRows
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

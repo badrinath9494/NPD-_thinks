@@ -82,3 +82,49 @@ relationship AutoDetected_359505dd-58e9-4f80-ab90-25b6f480c2da
 	fromColumn: 'Completed Particulars Details'.'Part Number'
 	toColumn: 'Completed parts Details'.'Part Number'
 
+relationship 8cc71f61-b922-4b5d-973b-f04d195254a9
+	fromColumn: Dim_Part.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship 57a92091-a6b9-4c9f-a8f2-9f84636aa958
+	fromColumn: Dim_Project.'Project ID'
+	toColumn: 'Part Details'.'Project ID'
+
+relationship c4f70f9c-9912-421a-83e4-437d8f0269ea
+	fromColumn: Dim_Responsibility.Responsibility
+	toColumn: Bridge-Resp.Responsibility
+
+relationship 9f67fe75-f934-44cc-bae9-b016aff8deeb
+	fromColumn: Dim_Status.Status
+	toColumn: Phases.status
+
+relationship f72f8034-c53f-456e-a9cb-8bfcb52a9592
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: Particulars.Plan
+
+relationship 8976e07f-60d9-45bb-b44b-25c5764fdad5
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: Particulars.Actual
+
+relationship d75f8aa9-c3c4-48a2-9ccb-a279d91cc653
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: ProtoActivity.Plan
+
+relationship 10466191-b4d6-4025-9024-c75dcf6570b0
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: ProtoActivity.Actual
+
+relationship 6362e3c9-df6b-47ec-bbc6-a446c9bc31cb
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: Action_Plan.When
+
+relationship 723df8c9-f7f8-4133-abdf-a15cabcd7cab
+	isActive: false
+	fromColumn: Dim_Date.Date
+	toColumn: Action_plan-1.'Revised Commitment Date'
+

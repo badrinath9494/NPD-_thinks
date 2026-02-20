@@ -31,7 +31,7 @@ queryGroup 'Query Errors - 24-06-2025 13:05:42'
 
 	annotation PBI_QueryGroupOrder = 4
 
-annotation PBI_QueryOrder = ["Metrics","Phases","Sharepoint url","Sharepoint folder","Part Details","Particulars","Milestone Details","phase status","Customer segment","Projects-CM","X matrix","PDC table","Part images","4W1H-Analysis","Action_Plan","Bridge-Sheet","Bridge-Resp","Errors in Milestone Details","Action_plan-1","ProtoMonthPlan1","ProtoActivity1","ProtoPartsDetails1","ProtoActivity","ProtoPartsDetails","ProtoMonthPlan","Errors in ProtoMonthPlan","Completed Particulars Details","Completed parts Details","Errors in Particulars","Errors in Particulars (2)"]
+annotation PBI_QueryOrder = ["Metrics","Phases","Sharepoint url","Sharepoint folder","Part Details","Particulars","Milestone Details","phase status","Customer segment","Projects-CM","X matrix","PDC table","Part images","4W1H-Analysis","Action_Plan","Bridge-Sheet","Bridge-Resp","Errors in Milestone Details","Action_plan-1","ProtoMonthPlan1","ProtoActivity1","ProtoPartsDetails1","ProtoActivity","ProtoPartsDetails","ProtoMonthPlan","Errors in ProtoMonthPlan","Completed Particulars Details","Completed parts Details","Errors in Particulars","Errors in Particulars (2)","Dim_Date","Dim_Part","Dim_Project","Dim_Responsibility","Dim_Status"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
@@ -58,6 +58,11 @@ ref table ProtoPartsDetails
 ref table ProtoMonthPlan
 ref table 'Completed Particulars Details'
 ref table 'Completed parts Details'
+ref table Dim_Date
+ref table Dim_Part
+ref table Dim_Project
+ref table Dim_Responsibility
+ref table Dim_Status
 
 ref cultureInfo en-IN
 

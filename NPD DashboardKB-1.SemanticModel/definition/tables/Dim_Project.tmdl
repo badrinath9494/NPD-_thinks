@@ -1,0 +1,51 @@
+table Dim_Project
+	lineageTag: fa34bc9f-df47-4cb0-9ed8-e2ce28526889
+
+	column 'Project ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: c98c326e-ed6a-4224-a83b-e8f124a15ad5
+		summarizeBy: none
+		sourceColumn: Project ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: aec72f88-cfd7-4c0f-8c95-a7991ae27396
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 3595ebf6-67be-4ea6-b7fa-2ab2f2c35bda
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 7b8b047a-f9ab-48db-a16a-6419db74f722
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Project = m
+		mode: import
+		source =
+				let
+				    Source = #"Part Details",
+				    KeepColumns = Table.SelectColumns(Source, {"Project ID", "Project Name", "Customer", "Customer ID"}),
+				    NoBlanks = Table.SelectRows(KeepColumns, each [Project ID] <> null),
+				    DistinctRows = Table.Distinct(NoBlanks, {"Project ID"})
+				in
+				    DistinctRows
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
