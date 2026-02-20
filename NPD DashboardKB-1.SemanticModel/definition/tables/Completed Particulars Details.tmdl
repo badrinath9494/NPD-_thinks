@@ -1,0 +1,119 @@
+table 'Completed Particulars Details'
+	lineageTag: 58874ba9-67a4-4516-ac79-a4f13d9e64b2
+
+	column 'Part Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3fff3456-5840-408a-ae68-3e3a1fdbf5f9
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phase ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d23fcf5-6329-46ef-8359-4fe1cc5e7a67
+		summarizeBy: count
+		sourceColumn: Phase ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phase
+		dataType: string
+		lineageTag: ad6339fd-807d-480f-aee0-f7f6e379a862
+		summarizeBy: none
+		sourceColumn: Phase
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Particular ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: d5ea8cf1-29a0-47cd-955d-a28c2cf68e7b
+		summarizeBy: count
+		sourceColumn: Particular ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Particular
+		dataType: string
+		lineageTag: 5c00c15e-a95a-4525-8c08-d0b3be8f534b
+		summarizeBy: none
+		sourceColumn: Particular
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5202dd7e-7dbc-4b7d-a041-72dde93ee746
+		summarizeBy: none
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Actual
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0bd7b43c-60b4-43bd-8fb4-2a7f285b6561
+		summarizeBy: none
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Responsible Function'
+		dataType: string
+		lineageTag: 20b990fb-a02d-4762-9572-e137e2df90b6
+		summarizeBy: none
+		sourceColumn: Responsible Function
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Responsible Person'
+		dataType: string
+		lineageTag: e18a6bd5-0848-49ac-b593-c223d3aa55ea
+		summarizeBy: none
+		sourceColumn: Responsible Person
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Plan' =
+			
+			FORMAT([Plan], "dd-mmm-yy")
+		lineageTag: 00d928b2-0fe0-4669-8893-c4fee642eee7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Actual' =
+			
+			FORMAT([Actual], "dd-mmm-yy")
+		lineageTag: 98968109-b935-49af-aa42-4db0a585d455
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Completed Particulars Details' = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+				    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+				    #"NPD Dashboard Tables" = #"Shared Documents"{[Name="NPD Dashboard Tables"]}[Content],
+				    #"Completed Particular Details xlsx" = #"NPD Dashboard Tables"{[Name="Completed Particular Details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Completed Particular Details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", Int64.Type}, {"Phase ID", Int64.Type}, {"Phase", type text}, {"Particular ID", Int64.Type}, {"Particular", type text}, {"Plan", type date}, {"Actual", type date}, {"Responsible Function", type text}, {"Responsible Person", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

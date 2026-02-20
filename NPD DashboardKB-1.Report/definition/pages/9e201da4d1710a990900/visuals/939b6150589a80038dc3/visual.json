@@ -1,0 +1,817 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "939b6150589a80038dc3",
+  "position": {
+    "x": 5.7142857142857144,
+    "y": 101.42857142857143,
+    "z": 0,
+    "height": 454.28571428571433,
+    "width": 1482.8571428571429,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Completed parts Details"
+                    }
+                  },
+                  "Property": "Part Number"
+                }
+              },
+              "queryRef": "Completed parts Details.Part Number",
+              "nativeQueryRef": "Part Number",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Completed parts Details"
+                    }
+                  },
+                  "Property": "Customer"
+                }
+              },
+              "queryRef": "Completed parts Details.Customer",
+              "nativeQueryRef": "Customer",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Completed parts Details"
+                    }
+                  },
+                  "Property": "Project Name"
+                }
+              },
+              "queryRef": "Completed parts Details.Project Name",
+              "nativeQueryRef": "Project Name",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Part Name"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Part Name)",
+              "nativeQueryRef": "Part Name",
+              "displayName": "Part Name"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Part Weight"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Part Weight)",
+              "nativeQueryRef": "Part Weight",
+              "displayName": "Part Weight"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Part Dimension"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Part Dimension)",
+              "nativeQueryRef": "Part Dimension",
+              "displayName": "Part Dimension"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Process"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Process)",
+              "nativeQueryRef": "Process",
+              "displayName": "Process"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Casting/Post Casting Location"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Casting/Post Casting Location)",
+              "nativeQueryRef": "Casting/Post Casting Location",
+              "displayName": "Casting/Post Casting Location"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Heat Treatment Location"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Heat Treatment Location)",
+              "nativeQueryRef": "Heat Treatment Location",
+              "displayName": "Heat Treatment Location"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Machining/Post Machining Loctaion"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Machining/Post Machining Loctaion)",
+              "nativeQueryRef": "Machining/Post Machining Loctaion",
+              "displayName": "Machining/Post Machining Loctaion"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Assembly Location"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Assembly Location)",
+              "nativeQueryRef": "Assembly Location",
+              "displayName": "Assembly Location"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Special Process (ED Coating) Location"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Special Process (ED Coating) Location)",
+              "nativeQueryRef": "Special Process (ED Coating) Location",
+              "displayName": "Special Process (ED Coating) Location"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "AVOB (Rs Cr.)"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.AVOB (Rs Cr.))",
+              "nativeQueryRef": "AVOB (Rs Cr.)",
+              "displayName": "AVOB (Rs Cr.)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Annual Volume, in No's"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(Completed parts Details.Annual Volume, in No's)",
+              "nativeQueryRef": "Annual Volume, in No's",
+              "displayName": "Annual Volume, in No's"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Completed parts Details"
+                        }
+                      },
+                      "Property": "Current Status"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Completed parts Details.Current Status)",
+              "nativeQueryRef": "Current Status",
+              "displayName": "Current Status"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Completed parts Details.Customer"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Completed parts Details.Project Name"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "valuesOnRow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#000000'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "240.63699072708118D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6587486'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "215.22737546615068D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6585193'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "155.69565157430895D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'5643993'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "174.52173820328733D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6421397'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "212.47826680331133D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6489181'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "178.08695834350294D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Part Details"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6516772'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Part Details'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "17D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "9d40ebcbca9df1492f83"
+}

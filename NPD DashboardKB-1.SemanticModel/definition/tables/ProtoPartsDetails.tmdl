@@ -1,0 +1,211 @@
+table ProtoPartsDetails
+	lineageTag: 56a3a080-811f-411f-b3b8-581f9634f5e5
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: 33430f6e-2346-4772-9abf-20f0747246d7
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: bd5c8d35-821a-43dd-ad28-44151ae50d4f
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SCL Target Schedule Against Customer Event'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 19dfb97f-1953-46fa-b476-4a02f757fdd0
+		summarizeBy: none
+		sourceColumn: SCL Target Schedule Against Customer Event
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Last Update On'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b34ae899-3e58-43dd-806b-d233c4e1b4ab
+		summarizeBy: none
+		sourceColumn: Last Update On
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Customer Required Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 823f6455-caea-4d7e-b201-e6ee9b0e5658
+		summarizeBy: none
+		sourceColumn: Customer Required Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Part Name'
+		dataType: string
+		lineageTag: 7873f852-7afa-456d-b006-da2e9a36118a
+		summarizeBy: none
+		sourceColumn: Part Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: a02008b3-b701-47c4-a73f-a3ed5ed11808
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Dimension'
+		dataType: string
+		lineageTag: 8163798b-7661-44fd-a5ae-6678c1d190ef
+		summarizeBy: none
+		sourceColumn: Part Dimension
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Weight'
+		dataType: string
+		lineageTag: b24acc60-8bd7-44e1-a196-24c368b5d615
+		summarizeBy: none
+		sourceColumn: Part Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	column Process
+		dataType: string
+		lineageTag: 8191c2b3-f46c-4e4c-9c05-4291645dcede
+		summarizeBy: none
+		sourceColumn: Process
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Casting / Post Casting Location'
+		dataType: string
+		lineageTag: 1bc9ab19-b51c-45c5-a914-07a9799b6819
+		summarizeBy: none
+		sourceColumn: Casting / Post Casting Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Heat Treatment Location'
+		dataType: string
+		lineageTag: 87550372-bd25-49da-8d84-c371342c8ca7
+		summarizeBy: none
+		sourceColumn: Heat Treatment Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Machining / Post Machining Location'
+		dataType: string
+		lineageTag: 77a5f03b-1a1c-4a3a-97df-8bb337080e97
+		summarizeBy: none
+		sourceColumn: Machining / Post Machining Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assembly Location'
+		dataType: string
+		lineageTag: 034a2242-a99f-4597-a414-6c4ff28b8949
+		summarizeBy: none
+		sourceColumn: Assembly Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Special Process (ED Coating) Location'
+		dataType: string
+		lineageTag: 4bff6a64-3fc8-440a-b32d-5bd2bc62962b
+		summarizeBy: none
+		sourceColumn: Special Process (ED Coating) Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d958b34-6956-4faf-86c0-9deb4faa4d0f
+		summarizeBy: sum
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+	column Actual
+		dataType: string
+		lineageTag: 07dc079b-238e-4190-928a-a619df83e025
+		summarizeBy: none
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+	column Backlog
+		dataType: int64
+		formatString: 0
+		lineageTag: bfaef3bd-771b-4ef0-9395-72a4f4fcd89c
+		summarizeBy: sum
+		sourceColumn: Backlog
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: a1a97062-f271-4be0-a027-cf31252ef678
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Status'
+		dataType: string
+		lineageTag: 3f5e166b-2610-4b23-bcc6-dcdbffc9e40d
+		summarizeBy: none
+		sourceColumn: Current Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Customer Required Date' =
+			
+			FORMAT([Customer Required Date], "dd-mmm-yy")
+		lineageTag: 8d875a4c-6e03-41c9-876f-91ac2a2710a2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted SCL Target Schedule Against Customer Event' =
+			
+			FORMAT([SCL Target Schedule Against Customer Event], "dd-mmm-yy")
+		dataType: string
+		lineageTag: af359a2e-5cd0-41c9-b780-48901c06224c
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProtoPartsDetails = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Final Proto Parts List xlsx" = Source{[Name="Final Proto Parts List.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Final Proto Parts List xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Customer Name", type text}, {"Project Name", type text}, {"SCL Target Schedule Against Customer Event", type date}, {"Last Update On", type date}, {"Customer Required Date", type date}, {"Part Name", type text}, {"Part Number", Int64.Type}, {"Part Dimension", type text}, {"Part Weight", type text}, {"Process", type text}, {"Casting / Post Casting Location", type text}, {"Heat Treatment Location", type text}, {"Machining / Post Machining Location", type text}, {"Assembly Location", type text}, {"Special Process (ED Coating) Location", type text}, {"Plan", Int64.Type}, {"Actual", type text}, {"Backlog", Int64.Type}, {"Status", type text}, {"Current Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

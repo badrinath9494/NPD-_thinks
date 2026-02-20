@@ -1,0 +1,88 @@
+table Projects-CM
+	lineageTag: 2b5c1dd8-ea29-4ec3-9932-c3d56f66da2a
+
+	column 'Counter Measure'
+		dataType: string
+		lineageTag: 8ff880a3-0044-45fb-98f5-ef528b4d566d
+		summarizeBy: none
+		sourceColumn: Counter Measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Status'
+		dataType: string
+		lineageTag: f78153bd-3ae6-4f9f-8ee1-5a2ed30d8854
+		summarizeBy: none
+		sourceColumn: Project Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 0c2f0e92-dbf8-4ba9-b55f-658199487f3c
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Counter Measure Status'
+		dataType: string
+		lineageTag: 0f702142-ec8c-4055-ab6e-0c7b8e1884ad
+		summarizeBy: none
+		sourceColumn: Counter Measure Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Previous CM Status' =
+			
+			IF('Projects-CM'[Counter Measure Status] = "Occured and Completed", "Occured",
+			    IF('Projects-CM'[Counter Measure Status] = "Occured but not Completed", "Occured",
+			        IF('Projects-CM'[Counter Measure Status] = "Potential to occur", "",""
+			        )
+			    )
+			)
+		lineageTag: 8117d323-b088-41b1-bcde-17a907eed413
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sheet Name'
+		dataType: string
+		lineageTag: 0fd490c8-abd9-436e-964f-f0949aad4abe
+		summarizeBy: none
+		sourceColumn: Sheet Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Primary/Secondary Responsibility'
+		dataType: string
+		lineageTag: 424d2f6e-1477-4397-b87d-ba65beb05e18
+		summarizeBy: none
+		sourceColumn: Primary/Secondary Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	column Responsibility
+		dataType: string
+		lineageTag: 0027b373-a016-44da-befa-f1b21923ebbe
+		summarizeBy: none
+		sourceColumn: Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Projects-CM = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Project and Counter Measures xlsx" = Source{[Name="Project and Counter Measures.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Project and Counter Measures xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,126 @@
+table 4W1H-Analysis
+	lineageTag: b0c90f86-ed44-4334-bfc1-d0939785672c
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 4361eb40-7e6e-4131-a0b4-429ef3010971
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Venue
+		dataType: string
+		lineageTag: b2dd5bce-2643-457e-81b5-b03332b5a1c6
+		summarizeBy: none
+		sourceColumn: Venue
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'VCS Number'
+		dataType: string
+		lineageTag: 0d39a238-68e0-4e0d-9280-f516c328fabd
+		summarizeBy: none
+		sourceColumn: VCS Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Next_Review_Date
+		dataType: string
+		lineageTag: e4aa2de3-0721-4fae-820d-e1190a027352
+		summarizeBy: none
+		sourceColumn: Next_Review_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: string
+		lineageTag: f5a221a4-e940-4940-b414-75795086dafb
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Problem_Statement
+		dataType: string
+		lineageTag: 5769400f-2071-431d-9ccd-fd75e353cd92
+		summarizeBy: none
+		sourceColumn: Problem_Statement
+
+		annotation SummarizationSetBy = Automatic
+
+	column CRT_Name
+		dataType: string
+		lineageTag: cfcc3e22-8b77-49b3-9e1d-1885197188d1
+		summarizeBy: none
+		sourceColumn: CRT_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column CRT_Dept
+		dataType: string
+		lineageTag: 191032c1-d178-4325-9463-506515ca27e8
+		summarizeBy: none
+		sourceColumn: CRT_Dept
+
+		annotation SummarizationSetBy = Automatic
+
+	column Background
+		dataType: string
+		lineageTag: 3e8f9a52-b986-48c1-8c90-4a48c2884ddb
+		summarizeBy: none
+		sourceColumn: Background
+
+		annotation SummarizationSetBy = Automatic
+
+	column Analysis
+		dataType: string
+		lineageTag: 01088257-a0b2-44ae-b40d-244e18aec299
+		summarizeBy: none
+		sourceColumn: Analysis
+
+		annotation SummarizationSetBy = Automatic
+
+	column Why
+		dataType: string
+		lineageTag: 675a87d1-2649-48f6-bccb-396ca9bf7f77
+		summarizeBy: none
+		sourceColumn: Why
+
+		annotation SummarizationSetBy = Automatic
+
+	column Observation
+		dataType: string
+		lineageTag: 10eadc8c-3b06-46f2-bcb6-e137deb97a4c
+		summarizeBy: none
+		sourceColumn: Observation
+
+		annotation SummarizationSetBy = Automatic
+
+	column Root_Cause
+		dataType: string
+		lineageTag: 80ef2973-18dc-4ae7-a209-0f0de13e0a05
+		summarizeBy: none
+		sourceColumn: Root_Cause
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 4W1H-Analysis = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+				    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+				    #"NPD Dashboard Tables" = #"Shared Documents"{[Name="NPD Dashboard Tables"]}[Content],
+				    #"Final Action Plan xlsx" = #"NPD Dashboard Tables"{[Name="Final Analysis.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Final Action Plan xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

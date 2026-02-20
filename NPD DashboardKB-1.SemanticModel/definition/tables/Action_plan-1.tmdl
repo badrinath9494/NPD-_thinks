@@ -1,0 +1,120 @@
+table Action_plan-1
+	lineageTag: d70e9b3a-034b-4cbf-b09f-e1af8c2b479b
+
+	column Customer
+		dataType: string
+		lineageTag: 28398ec9-c0e6-4533-9ea2-f9664e5b1a07
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: bed31e0a-3ff1-4416-a4be-e00960363118
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Initial Commitment Date'
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 7268c686-8cb6-43b7-b9b4-e57f81b1aea1
+		summarizeBy: none
+		sourceColumn: Initial Commitment Date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Revised Commitment Date'
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: a21ccb1e-c4bb-4779-9686-b2ac30a5e3ff
+		summarizeBy: none
+		sourceColumn: Revised Commitment Date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Issue
+		dataType: string
+		lineageTag: 6efa1f17-739b-44d1-abb0-1976e1d3499c
+		summarizeBy: none
+		sourceColumn: Issue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Action
+		dataType: string
+		lineageTag: 5e2a8073-8006-4dd5-80e4-31d05eb113d8
+		summarizeBy: none
+		sourceColumn: Action
+
+		annotation SummarizationSetBy = Automatic
+
+	column Resp
+		dataType: string
+		lineageTag: 6ab21273-7059-4d4b-98f7-5c49a4e133d6
+		summarizeBy: none
+		sourceColumn: Resp
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dept
+		dataType: string
+		lineageTag: 026b4696-528d-4ff8-bc7f-1cb47f406660
+		summarizeBy: none
+		sourceColumn: Dept
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 8c731f54-c525-4ba1-886d-308fea0ab779
+		summarizeBy: none
+		sourceColumn: Target
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Status
+		dataType: string
+		lineageTag: 675e6886-0fb4-4ded-b238-ca02e138c7d4
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Action_plan-1 = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Action Plan xlsx" = Source{[Name="Action Plan.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Action Plan xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,213 @@
+table 'Milestone Details'
+	lineageTag: 2706a306-6227-41ac-8673-168707ae5187
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: faebbe1d-a898-4d17-89e5-f8674bf7f9e7
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: 8a95687c-d8f5-467e-99eb-b1a3350ff523
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Milestone Details'
+		dataType: string
+		lineageTag: 9e93b0ad-b237-42df-9b7f-5269e5697047
+		summarizeBy: none
+		sourceColumn: Customer Milestone Details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Plan'
+		dataType: string
+		lineageTag: cff021ca-e138-4857-853c-01a70b66171f
+		summarizeBy: none
+		sourceColumn: Customer Plan
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SCL Milestone Details'
+		dataType: string
+		lineageTag: 347dca6f-0621-4102-9607-84e77b049226
+		summarizeBy: none
+		sourceColumn: SCL Milestone Details
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SCL Plan'
+		dataType: string
+		lineageTag: fe3bebe5-7d29-4e37-8390-b71b9f5c01c2
+		summarizeBy: none
+		sourceColumn: SCL Plan
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SCL Actual'
+		dataType: string
+		lineageTag: ec7353ca-adb3-4d40-82c2-79ddafdab8e7
+		summarizeBy: none
+		sourceColumn: SCL Actual
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SCL Status'
+		dataType: string
+		lineageTag: 683c0379-6a64-4958-802d-b518a214d025
+		summarizeBy: none
+		sourceColumn: SCL Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project ID'
+		dataType: string
+		lineageTag: f32a6b6f-e28f-4481-bbba-cd3e286e0886
+		summarizeBy: none
+		sourceColumn: Project ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: 59529198-f5c9-461b-b1fb-d6b00bff3daa
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormattedSCLPlan = ```
+			
+			VAR TextValue = 'Milestone Details'[SCL Plan]
+			VAR IsWeekCode = LEFT(TextValue, 2) = "wk"
+			VAR ParsedDate = IFERROR(DATEVALUE(TextValue), BLANK())
+			RETURN
+			    IF(
+			        IsWeekCode,
+			        TextValue,
+			        IF(
+			            NOT ISBLANK(ParsedDate),
+			            FORMAT(ParsedDate, "dd-mmm-yy"),
+			            TextValue
+			        )
+			    )
+			
+			```
+		lineageTag: 8ef1a5e7-e222-4db2-8c30-8c212c0984e5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormattedCustomerPlan =
+			
+			VAR TextValue = 'Milestone Details'[Customer Plan]
+			VAR IsWeekCode = LEFT(TextValue, 2) = "wk"
+			VAR ParsedDate = IFERROR(DATEVALUE(TextValue), BLANK())
+			RETURN
+			    IF(
+			        IsWeekCode,
+			        TextValue,
+			        IF(
+			            NOT ISBLANK(ParsedDate),
+			            FORMAT(ParsedDate, "dd-mmm-yy"),
+			            TextValue
+			        )
+			    )
+		lineageTag: 43e7479a-0a75-46c5-95e5-e21b041cb4d5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormattedSCLActual =
+			
+			VAR TextValue = 'Milestone Details'[SCL Actual]
+			VAR IsWeekCode = LEFT(TextValue, 2) = "wk"
+			VAR ParsedDate = IFERROR(DATEVALUE(TextValue), BLANK())
+			RETURN
+			    IF(
+			        IsWeekCode,
+			        TextValue,
+			        IF(
+			            NOT ISBLANK(ParsedDate),
+			            FORMAT(ParsedDate, "dd-mmm-yy"),
+			            TextValue
+			        )
+			    )
+		lineageTag: 1051ecbd-18a4-47c6-8c7b-b2b06c18974c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column SCLActualStatusColor =
+			
+			VAR PlanText = 'Milestone Details'[FormattedSCLPlan]
+			VAR ActualText = 'Milestone Details'[FormattedSCLActual]
+			
+			-- Detect if Plan starts with "wk"
+			VAR IsPlanWeek = LEFT(PlanText, 2) = "wk"
+			
+			-- Detect if Actual starts with "wk"
+			VAR IsActualWeek = LEFT(ActualText, 2) = "wk"
+			
+			-- Extract Plan Date
+			VAR PlanDate =
+			    IF(
+			        IsPlanWeek,
+			        VAR StartPos = FIND("(", PlanText, 1) + 1
+			        VAR EndPos = FIND(")", PlanText, 1) - 1
+			        RETURN DATEVALUE(MID(PlanText, StartPos, EndPos - StartPos + 1)),
+			        IFERROR(DATEVALUE(PlanText), BLANK())
+			    )
+			
+			-- Extract Actual Date
+			VAR ActualDate =
+			    IF(
+			        IsActualWeek,
+			        VAR StartPos = FIND("(", ActualText, 1) + 1
+			        VAR EndPos = FIND(")", ActualText, 1) - 1
+			        RETURN DATEVALUE(MID(ActualText, StartPos, EndPos - StartPos + 1)),
+			        IFERROR(DATEVALUE(ActualText), BLANK())
+			    )
+			
+			-- Return Color for Actual
+			RETURN
+			    IF(
+			        NOT ISBLANK(ActualDate) && NOT ISBLANK(PlanDate),
+			        IF(ActualDate > PlanDate, "Red", "Green"),
+			        BLANK()
+			    )
+		lineageTag: 8ec0a0b5-6955-430e-9e2a-e6fcc1da0f6e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Milestone Details' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Milestone Details xlsx" = Source{[Name="Milestone Details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Milestone Details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Replaced Value" = Table.ReplaceValue(#"Promoted Headers","nan","",Replacer.ReplaceText,{"Customer Plan"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","TBC","",Replacer.ReplaceText,{"Customer Plan"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","nan","",Replacer.ReplaceText,{"SCL Plan"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","TBC","",Replacer.ReplaceText,{"SCL Plan"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","nan","",Replacer.ReplaceText,{"SCL Actual"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","00:00:00","",Replacer.ReplaceText,{"Customer Plan", "SCL Plan", "SCL Actual"}),
+				    #"Trimmed Text" = Table.TransformColumns(#"Replaced Value5",{{"Customer Plan", Text.Trim, type text}})
+				in
+				    #"Trimmed Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

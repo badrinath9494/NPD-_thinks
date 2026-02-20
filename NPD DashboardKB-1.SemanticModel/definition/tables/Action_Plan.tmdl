@@ -1,0 +1,115 @@
+table Action_Plan
+	lineageTag: 56e9a97d-48e4-4a9e-a9f1-e68780cd4d19
+
+	column Part_Number
+		dataType: string
+		lineageTag: ce3e04f0-323a-472d-9b14-f860fd611da3
+		summarizeBy: none
+		sourceColumn: Part_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 92f332e3-6f8f-4cb0-90bb-4072d4e305ee
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column What
+		dataType: string
+		lineageTag: 3389b8fd-7595-4c5c-806f-174cab60b421
+		summarizeBy: none
+		sourceColumn: What
+
+		annotation SummarizationSetBy = Automatic
+
+	column From
+		dataType: string
+		lineageTag: ed122120-3d3a-4d2d-bdf3-31ff220b1a7e
+		summarizeBy: none
+		sourceColumn: From
+
+		annotation SummarizationSetBy = Automatic
+
+	column To
+		dataType: string
+		lineageTag: c141f899-3696-4079-9eb1-7fda7dfb67f8
+		summarizeBy: none
+		sourceColumn: To
+
+		annotation SummarizationSetBy = Automatic
+
+	column When
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 80b74f2d-cfb3-4b85-93f8-f8798ca19a7b
+		summarizeBy: none
+		sourceColumn: When
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Who
+		dataType: string
+		lineageTag: 35fbe8d7-060a-41cd-9184-673580086f53
+		summarizeBy: none
+		sourceColumn: Who
+
+		annotation SummarizationSetBy = Automatic
+
+	column How
+		dataType: string
+		lineageTag: f580c90b-41a7-4383-9931-8b98e94c8637
+		summarizeBy: none
+		sourceColumn: How
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: c64db75a-4a60-4517-9eba-5a49871a4a6e
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preventative Action'
+		dataType: string
+		lineageTag: 2f3aad11-3fee-4bde-a773-59b2bbb55789
+		summarizeBy: none
+		sourceColumn: Preventative Action
+
+		annotation SummarizationSetBy = Automatic
+
+	column Standardization
+		dataType: string
+		lineageTag: 28198d51-bad1-42bf-8698-ad5c5a0eb5a9
+		summarizeBy: none
+		sourceColumn: Standardization
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Action_Plan = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+				    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+				    #"NPD Dashboard Tables" = #"Shared Documents"{[Name="NPD Dashboard Tables"]}[Content],
+				    #"Final Analysis xlsx" = #"NPD Dashboard Tables"{[Name="Final Action Plan.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Final Analysis xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part_Number", type text}, {"Type", type text}, {"What", type text}, {"From", type text}, {"To", type text}, {"When", type datetime}, {"Who", type text}, {"How", type text}, {"Status", type text}, {"Preventative Action", type text}, {"Standardization", type text}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"When", type date}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type1",null,"blank",Replacer.ReplaceValue,{"Status"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

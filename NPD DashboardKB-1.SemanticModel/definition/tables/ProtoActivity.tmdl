@@ -1,0 +1,127 @@
+table ProtoActivity
+	lineageTag: be3a4d51-a77e-4207-995a-128725dcb0ba
+
+	column 'Part Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: c9775f87-0107-42d6-9bd6-f3655a6f5baf
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Stage
+		dataType: string
+		lineageTag: d6a8ec7c-2b44-4e1a-903e-161753b11175
+		summarizeBy: none
+		sourceColumn: Stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column Particular
+		dataType: string
+		lineageTag: b6b387bb-7fe3-4e20-9bc4-382848d695f0
+		summarizeBy: none
+		sourceColumn: Particular
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Responsible Function'
+		dataType: string
+		lineageTag: 588471a9-bd0f-456a-9b1f-6c7ad21a446c
+		summarizeBy: none
+		sourceColumn: Responsible Function
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Responsible Person'
+		dataType: string
+		lineageTag: f4af0454-a362-45f9-8bf4-14858f13fa0d
+		summarizeBy: none
+		sourceColumn: Responsible Person
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 88bb46c6-7d2b-4351-9245-195d89165aa9
+		summarizeBy: none
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Actual
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9c45a623-94de-415c-9cc1-65c812317766
+		summarizeBy: none
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Remark
+		dataType: string
+		lineageTag: 53fe6d42-3417-4eea-825f-74d60ff36143
+		summarizeBy: none
+		sourceColumn: Remark
+
+		annotation SummarizationSetBy = Automatic
+
+	column Particular1 = ```
+			
+			VAR TextValue = 'ProtoActivity'[Particular] 
+			VAR DotPosition = FIND(".", TextValue, 1, -1)
+			VAR NumberPart = IF(DotPosition > 0, LEFT(TextValue, DotPosition - 1), TextValue)
+			VAR RestPart = IF(DotPosition > 0, MID(TextValue, DotPosition, LEN(TextValue)), "")
+			VAR NumberPadded =
+			    IF (
+			        LEN(NumberPart) = 1,
+			        "0" & NumberPart,
+			        NumberPart
+			    )
+			RETURN
+			    NumberPadded & RestPart
+			```
+		lineageTag: 8d93b97d-6bb4-4dfb-bf9a-bce11674a57c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Actual' =
+			
+			FORMAT([Actual], "dd-mmm-yy")
+		lineageTag: 591e83f3-4a7c-4b2d-842b-b3dcf214a60e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Plan' =
+			
+			FORMAT([Plan], "dd-mmm-yy")
+		lineageTag: 85338309-630e-428b-b4b8-d2dee3506a7b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProtoActivity = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Final Proto Particulars List xlsx" = Source{[Name="Final Proto Particulars List.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Final Proto Particulars List xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", Int64.Type}, {"Stage", type text}, {"Particular", type text}, {"Responsible Function", type text}, {"Responsible Person", type text}, {"Plan", type date}, {"Actual", type date}, {"Remark", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

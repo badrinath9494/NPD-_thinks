@@ -1,0 +1,132 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "0fb9367a69718cd43816",
+  "displayName": "4W1H  Action plan - Drill Through",
+  "displayOption": "FitToWidth",
+  "height": 2600,
+  "width": 2050,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d7c712301b0c91c9c14d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Customer"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "06b53a66dd860c6e9519",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Part Name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "7676bfb2ca31551dbbe3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Part Number"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "d968e4311d9c0059d2de",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "1d5d6fea5284e75cca07",
+        "boundFilter": "d7c712301b0c91c9c14d",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Customer"
+          }
+        }
+      },
+      {
+        "name": "12ea5cdcd04c5b0ca1e4",
+        "boundFilter": "06b53a66dd860c6e9519",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Part Name"
+          }
+        }
+      },
+      {
+        "name": "7dc28312d6313c5503ce",
+        "boundFilter": "7676bfb2ca31551dbbe3",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Part Details"
+              }
+            },
+            "Property": "Part Number"
+          }
+        }
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F5F5F5'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode"
+}

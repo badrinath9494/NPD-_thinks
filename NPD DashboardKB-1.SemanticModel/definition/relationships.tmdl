@@ -1,0 +1,85 @@
+relationship AutoDetected_47109b85-2c9f-4ead-80a3-67f854acc998
+	fromColumn: Particulars.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship AutoDetected_72eec520-b53c-41ba-81c7-c6dbf27277d3
+	fromColumn: 'phase status'.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship 3655b65b-b9a5-c426-79f4-cb96a55081a9
+	fromColumn: 'Part Details'.final_phase
+	toColumn: Phases.'Phase Name'
+
+relationship 2e6da0d0-2e6f-e601-dff6-77ea451ccab5
+	fromColumn: 'Part Details'.'Customer ID'
+	toColumn: 'Customer segment'.'Customer ID'
+
+relationship e0df2693-34dc-096c-0677-e6ba94e25d17
+	fromColumn: 'Part Details'.Process_cat
+	toColumn: 'PDC table'.'PDC categories'
+
+relationship 41e5d60d-5239-0982-182e-beef919ecefd
+	isActive: false
+	fromColumn: 'Milestone Details'.'Customer ID'
+	toColumn: 'Customer segment'.'Customer ID'
+
+relationship 3cdfcc5a-0388-ce26-8cd2-57a8756d3e53
+	fromColumn: 'Part images'.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship AutoDetected_80067038-7e0c-4d9e-94bb-4a7dc284fe66
+	fromColumn: Projects-CM.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship AutoDetected_3dacfec2-ebcf-4507-9258-3630305d56ec
+	fromColumn: Action_Plan.Part_Number
+	toColumn: 'Part Details'.'Part Number'
+
+relationship d6c060dc-a48c-2b68-8480-f63afc70924a
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: 'Part Details'.'Project ID'
+	toColumn: 'Milestone Details'.'Project ID'
+
+relationship 1b1c6699-45f7-9278-05ab-1c267a5a96f9
+	toCardinality: many
+	fromColumn: 4W1H-Analysis.'Part Number'
+	toColumn: Action_Plan.Part_Number
+
+relationship f7179bd9-3b69-98f0-8c14-131c833d700c
+	toCardinality: many
+	fromColumn: 'X matrix'.'Part Number'
+	toColumn: Projects-CM.'Part Number'
+
+relationship AutoDetected_473f34e9-90aa-41ee-83ec-5436fd509b1c
+	fromColumn: Projects-CM.'Sheet Name'
+	toColumn: Bridge-Sheet.'Sheet Name'
+
+relationship AutoDetected_e2cc0977-041b-46e0-87a0-62db7e3e4b57
+	fromColumn: 'X matrix'.'Sheet Name'
+	toColumn: Bridge-Sheet.'Sheet Name'
+
+relationship AutoDetected_775edf9c-938d-47c3-8791-63caec8f0754
+	fromColumn: Projects-CM.Responsibility
+	toColumn: Bridge-Resp.Responsibility
+
+relationship AutoDetected_1d112b52-4eee-4358-b893-185657d279c2
+	fromColumn: 'X matrix'.Responsibility
+	toColumn: Bridge-Resp.Responsibility
+
+relationship 35fe75ce-2d29-b953-5d11-8098bdedb0b5
+	fromColumn: Action_plan-1.'Part Number'
+	toColumn: 'Part Details'.'Part Number'
+
+relationship AutoDetected_009a1649-c28b-4dbc-b0f2-f0d693523c6d
+	fromColumn: ProtoActivity.'Part Number'
+	toColumn: ProtoPartsDetails.'Part Number'
+
+relationship 40e803dd-3083-3299-55b0-b3cc749abe6c
+	fromColumn: ProtoMonthPlan.'Part Number'
+	toColumn: ProtoPartsDetails.'Part Number'
+
+relationship AutoDetected_359505dd-58e9-4f80-ab90-25b6f480c2da
+	fromColumn: 'Completed Particulars Details'.'Part Number'
+	toColumn: 'Completed parts Details'.'Part Number'
+

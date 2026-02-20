@@ -1,0 +1,42 @@
+table Phases
+	lineageTag: c68a95fe-8900-435d-989a-c5be1a2a8abb
+
+	column 'Phase Name'
+		dataType: string
+		lineageTag: f356dc7c-c353-4c43-a7cf-0cda70c89484
+		summarizeBy: none
+		sourceColumn: Phase Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phase
+		dataType: string
+		lineageTag: 971594d1-ea05-4834-ace5-ef7a83a6d2d8
+		summarizeBy: none
+		sourceColumn: Phase
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: adb9d6a4-4ecb-4945-814b-847045ec51cf
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Phases = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcg/ISCxOVTBU0lFCsNyVYnXgUkZwKSN0KWO4lDG6lAlcygRdyhQuZQqXCsLmjCBkKVRnoEihOgNFCtUZKFKozgBKxQIA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Phase Name" = _t, Phase = _t, Column1 = _t]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"Column1", "status"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"Phase", "Phase Name"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Reordered Columns",{{"Phase Name", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

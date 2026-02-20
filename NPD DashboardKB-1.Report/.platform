@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "NPD DashboardKB-1"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "51d51edf-4672-4d39-9400-ebae58b64fa5"
+  }
+}

@@ -1,0 +1,1319 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "1289ee00086d030a90a0",
+  "position": {
+    "x": 0,
+    "y": 1695.6074124914207,
+    "z": 1000,
+    "height": 723.74742621825669,
+    "width": 1484.557309540151,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Part Name"
+                }
+              },
+              "queryRef": "ProtoPartsDetails.Part Name",
+              "nativeQueryRef": "First Part Name",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Part Number"
+                }
+              },
+              "queryRef": "ProtoPartsDetails.Part Number",
+              "nativeQueryRef": "Part Number",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Customer Name"
+                }
+              },
+              "queryRef": "ProtoPartsDetails.Customer Name",
+              "nativeQueryRef": "Customer Name",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Project Name"
+                }
+              },
+              "queryRef": "ProtoPartsDetails.Project Name",
+              "nativeQueryRef": "Project Name",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoActivity"
+                    }
+                  },
+                  "Property": "Stage"
+                }
+              },
+              "queryRef": "ProtoActivity.Stage",
+              "nativeQueryRef": "Stage",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoActivity"
+                    }
+                  },
+                  "Property": "Particular1"
+                }
+              },
+              "queryRef": "ProtoActivity.Particular1",
+              "nativeQueryRef": "Particular1",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ProtoActivity"
+                        }
+                      },
+                      "Property": "Responsible Function"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(ProtoActivity.Responsible Function)",
+              "nativeQueryRef": "Responsible Function",
+              "displayName": "Responsible Function"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ProtoActivity"
+                        }
+                      },
+                      "Property": "Responsible Person"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(ProtoActivity.Responsible Person)",
+              "nativeQueryRef": "Responsible Person",
+              "displayName": "Responsible Person"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ProtoActivity"
+                        }
+                      },
+                      "Property": "Formatted Date Plan"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(ProtoActivity.Formatted Date Plan)",
+              "nativeQueryRef": "First Formatted Date Plan",
+              "displayName": "Plan"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ProtoActivity"
+                        }
+                      },
+                      "Property": "Formatted Date Actual"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(ProtoActivity.Formatted Date Actual)",
+              "nativeQueryRef": "First Formatted Date Actual",
+              "displayName": "Actual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "ProtoStatus"
+                }
+              },
+              "queryRef": "Metrics.ProtoStatus",
+              "nativeQueryRef": "Status",
+              "displayName": "Status"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ProtoActivity"
+                        }
+                      },
+                      "Property": "Remark"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(ProtoActivity.Remark)",
+              "nativeQueryRef": "Remark",
+              "displayName": "Remark"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "ProtoPartsDetails.Customer Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Customer Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "ProtoPartsDetails.Project Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoPartsDetails"
+                    }
+                  },
+                  "Property": "Project Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "ProtoActivity.Stage"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ProtoActivity"
+                    }
+                  },
+                  "Property": "Stage"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "ProtoActivity.Particular1"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Cummins EBU'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Global 7'"
+                      }
+                    }
+                  ],
+                  "isToggled": true,
+                  "children": [
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'Proto Development    Stage - 1'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    },
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'Proto Development Stage - 2'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Remark)"
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metrics"
+                        }
+                      },
+                      "Property": "Proto_bg_status"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Metrics.ProtoStatus"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Metrics"
+                        }
+                      },
+                      "Property": "proto_act_font"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Formatted Date Actual)"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "blankRows": [
+        {
+          "properties": {
+            "showBlankRows": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "531.0927474957216D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "ProtoPartsDetails.Customer Name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "98.17020771527166D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G7'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "6607786L"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Function)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "97.5538746327463D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G7'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "6607786L"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Person)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "107.435833306505D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G71'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "66077861L"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Function)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95.49484910755227D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G71'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "66077861L"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Person)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "97.90797268101498D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G7'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6607786'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Function)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "97.46589900002388D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G7'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6607786'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Person)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "137.62777425935192D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G7'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'6607786'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Metrics.ProtoStatus"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "110.23335053056798D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G71'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'66077861'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Function)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "108.55873039109542D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Name"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'CONNECTION AIR INTAKE - G71'"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "ProtoPartsDetails"
+                          }
+                        },
+                        "Property": "Part Number"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'66077861'"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": "Min(ProtoActivity.Responsible Person)"
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Min(ProtoActivity.Formatted Date Plan)"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Metrics.ProtoStatus"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Proto Part - Activity Details'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

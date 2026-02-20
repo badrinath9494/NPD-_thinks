@@ -1,0 +1,679 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "320ee7b71a20738dcd94",
+  "position": {
+    "x": 19.617224880382775,
+    "y": 1219.5374800637958,
+    "z": 7000,
+    "height": 550.9170653907496,
+    "width": 2012.4003189792663,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Part Number"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Part Number1",
+              "nativeQueryRef": "Part Number1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Part Details"
+                    }
+                  },
+                  "Property": "Part Name"
+                }
+              },
+              "queryRef": "Part Details.Part Name",
+              "nativeQueryRef": "Part Name",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "VCS Number"
+                }
+              },
+              "queryRef": "4W1H-Analysis.VCS Number1",
+              "nativeQueryRef": "VCS Number1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Venue"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Venue1",
+              "nativeQueryRef": "Venue1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Problem_Statement"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Problem_Statement1",
+              "nativeQueryRef": "Problem_Statement1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Background"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Background1",
+              "nativeQueryRef": "Background1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Analysis"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Analysis1",
+              "nativeQueryRef": "Analysis1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Why"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Why1",
+              "nativeQueryRef": "Why1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Observation"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Observation1",
+              "nativeQueryRef": "Observation1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "4W1H-Analysis"
+                    }
+                  },
+                  "Property": "Root_Cause"
+                }
+              },
+              "queryRef": "4W1H-Analysis.Root_Cause1",
+              "nativeQueryRef": "Root_Cause1",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Part Number1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Part Details.Part Name"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.VCS Number1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Venue1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Problem_Statement1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Background1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Analysis1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Why1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Observation1"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "4W1H-Analysis.Root_Cause1"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "outlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "layout": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Outline'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170.180406094347D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Part Details.Part Name"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "150.41640225609382D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Problem_Statement1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "285.87406532018827D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Background1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "308.2280569826361D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Why1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "117.1904766812624D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Part Number1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "78.19047980882112D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.VCS Number1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "84.01587018965151D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Venue1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "136.76192703343986D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Analysis1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "371.98415158887406D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Observation1"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "297.2698694871909D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "4W1H-Analysis.Root_Cause1"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'4W1H-Analysis'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

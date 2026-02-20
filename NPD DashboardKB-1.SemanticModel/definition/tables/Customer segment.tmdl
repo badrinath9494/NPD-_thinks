@@ -1,0 +1,44 @@
+table 'Customer segment'
+	lineageTag: eff2644e-b921-4aef-897a-6300181b338e
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 06527001-e44b-4796-9ceb-cb790eed3bf2
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: d4c4cc41-d8ec-4128-8252-891b88d118e9
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 35801c5c-c700-4025-b648-84be8be36e8c
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer segment' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Segment Mapping xlsx" = Source{[Name="Segment Mapping.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Segment Mapping xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Customer ID", type text}, {"Customer Name", type text}, {"Segment", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

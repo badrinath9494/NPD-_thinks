@@ -1,0 +1,228 @@
+table 'Part Details'
+	lineageTag: b4fdbc26-9549-4b91-abe3-8640122a51e0
+
+	column 'Project ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: ac76394c-213a-49d3-8ced-e5da93c160be
+		summarizeBy: none
+		sourceColumn: Project ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: 00ca52db-cd40-4ab8-bd5f-e25a1dfe84e6
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 1417928c-3389-4e9c-90f8-6cafcb2d1eeb
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 3743204f-7af0-444c-976c-ba9e56cd7cd3
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Updated Date'
+		dataType: string
+		lineageTag: 6e24694a-81b4-4f42-9226-8d206452f423
+		summarizeBy: none
+		sourceColumn: Last Updated Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Name'
+		dataType: string
+		lineageTag: 5ef18736-6826-45f2-be25-68dbfb488546
+		summarizeBy: none
+		sourceColumn: Part Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: fb69fad6-7f41-426f-9b10-3680993898e4
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Dimension'
+		dataType: string
+		lineageTag: 742c8a61-5b01-4748-9044-733d289db63e
+		summarizeBy: none
+		sourceColumn: Part Dimension
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Weight'
+		dataType: string
+		lineageTag: 1baabb89-7983-4ef5-81b4-6a83f5284df2
+		summarizeBy: none
+		sourceColumn: Part Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	column Process
+		dataType: string
+		lineageTag: f7d55fd0-6636-45ef-8bbb-8ad9cb8c19a6
+		summarizeBy: none
+		sourceColumn: Process
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Casting/Post Casting Location'
+		dataType: string
+		lineageTag: 381a12fc-9378-4ee4-8627-d42df3c02e99
+		summarizeBy: none
+		sourceColumn: Casting/Post Casting Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Heat Treatment Location'
+		dataType: string
+		lineageTag: c0139181-12ce-4cf5-ab56-11b4f02e6815
+		summarizeBy: none
+		sourceColumn: Heat Treatment Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Machining/Post Machining Loctaion'
+		dataType: string
+		lineageTag: b5431dbc-4bab-4ed7-b778-2e58b24f95a8
+		summarizeBy: none
+		sourceColumn: Machining/Post Machining Loctaion
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assembly Location'
+		dataType: string
+		lineageTag: 7d0ce167-cf46-490f-ad5d-944f5445204f
+		summarizeBy: none
+		sourceColumn: Assembly Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Special Process (ED Coating) Location'
+		dataType: string
+		lineageTag: cf3f396f-c50f-4948-aab1-0ccd5383eca0
+		summarizeBy: none
+		sourceColumn: Special Process (ED Coating) Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Annual Volume, in No''s'
+		dataType: string
+		lineageTag: 5e97948c-ddc8-4b1c-b44a-dd6b8ea63287
+		summarizeBy: none
+		sourceColumn: Annual Volume, in No's
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AVOB (Rs Cr.)'
+		dataType: string
+		lineageTag: 3f3ed43a-5fb0-4ddc-a17d-330b802b64ce
+		summarizeBy: none
+		sourceColumn: AVOB (Rs Cr.)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Status'
+		dataType: string
+		lineageTag: ebab3304-1192-4fd2-a8db-b1ce4d73305c
+		summarizeBy: none
+		sourceColumn: Current Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column final_phase =
+			
+			// var act_last_status = CALCULATE( LASTNONBLANK('phase status'[Actual], MAX('phase status'[Status])))
+			var last_status_1 = CALCULATE( LASTNONBLANKVALUE('phase status'[Actual], MAX('phase status'[Status])))
+			var last_phase_1 = CALCULATE( LASTNONBLANKVALUE('phase status'[Status], MAX('phase status'[Phase])))
+			// return IF(NOT(ISBLANK(act_last_status)), CONCATENATE("), CONCATENATE(MAX('phase status'[Phase]), MAX('phase status'[Status])))
+			var last_status_2 = CALCULATE( LASTNONBLANKVALUE('phase status'[Status], MAX('phase status'[Status])))
+			var last_phase_2 = CALCULATE( LASTNONBLANKVALUE('phase status'[Actual], MAX('phase status'[Phase])))
+			return IF(last_phase_1 = last_phase_2,
+			    CONCATENATE(last_status_1, last_phase_2),
+			    CONCATENATE(last_status_2, last_phase_1)
+			)
+		lineageTag: 75ade626-018a-45d6-80ee-c1705d3edec9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column final_status = LEFT('Part Details'[final_phase],1)
+		lineageTag: 70d9a4ae-57a9-47ff-9028-70f1870d2e50
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Process_cat =
+			
+			IF(LEFT('Part Details'[Process],3) = "GDC",
+			    "GDC",
+			    IF(LEFT('Part Details'[Process],4) = "LPDC",
+			        "LPDC",
+			        IF(LEFT('Part Details'[Process],6) = "Medium",
+			            "Medium Tonnage",
+			            IF(LEFT('Part Details'[Process],6) = "Higher",
+			                "Higher Tonnage",
+			                BLANK()
+			            )
+			        )
+			    )
+			)
+		lineageTag: 7e8507ad-0c40-429d-bfda-d12ea0d04681
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phase5_Completed_Flag =
+			
+			VAR SelectedPart = 'Part Details'[Part Number]
+			VAR Phase5Actual =
+			    CALCULATE(
+			        MAX('phase status'[Actual]),
+			        FILTER(
+			            'phase status',
+			            'phase status'[Part Number] = SelectedPart &&
+			            'phase status'[Phase] = "Phase 5"
+			        )
+			    )
+			RETURN IF(ISBLANK(Phase5Actual), 0, 1)
+		formatString: 0
+		lineageTag: 19f10925-d176-44de-9aa6-1b13253c2091
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Part Details' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Part details xlsx" = Source{[Name="Part details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Part details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Project ID", Int64.Type}, {"Project Name", type text}, {"Customer", type text}, {"Customer ID", type text}, {"Last Updated Date", type text}, {"Part Name", type text}, {"Part Number", type text}, {"Part Dimension", type text}, {"Part Weight", type text}, {"Process", type text}, {"Casting/Post Casting Location", type text}, {"Heat Treatment Location", type text}, {"Machining/Post Machining Loctaion", type text}, {"Assembly Location", type text}, {"Special Process (ED Coating) Location", type text}, {"Annual Volume, in No's", type any}, {"AVOB (Rs Cr.)", type any}, {"Current Status", type text}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Changed Type", {"Part Number"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

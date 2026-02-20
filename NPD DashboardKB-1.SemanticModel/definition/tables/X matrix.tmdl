@@ -1,0 +1,88 @@
+table 'X matrix'
+	lineageTag: e4d2eb31-3a9f-4e0c-8851-708a4a30edb2
+
+	column 'Failure Mode'
+		dataType: string
+		lineageTag: ff208ac5-bd8b-43f3-939d-aa191b320b47
+		summarizeBy: none
+		sourceColumn: Failure Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Level Causes'
+		dataType: string
+		lineageTag: 13cfa6e1-34e9-4df7-9b67-b035dba85fd4
+		summarizeBy: none
+		sourceColumn: First Level Causes
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Counter Measures'
+		dataType: string
+		lineageTag: ff93090e-0ee1-4eef-a9db-ad28db9e1974
+		summarizeBy: none
+		sourceColumn: Counter Measures
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: b84ed1ef-ad89-45c0-be76-87110c5593af
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sheet Name'
+		dataType: string
+		lineageTag: 644b7d15-41fd-4a62-81f3-68dc64b3626e
+		summarizeBy: none
+		sourceColumn: Sheet Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column counter_measure_new =
+			CALCULATE(
+			    FIRSTNONBLANK('projects-cm'[Counter Measure], 1),
+			    FILTER(
+			        'projects-cm',
+			        'Projects-CM'[Part Number] = 'X matrix'[Part Number] && 'Projects-CM'[Counter Measure] = 'X matrix'[Counter Measures]
+			    )
+			)
+		lineageTag: 27330142-b576-4e56-bf6f-e984e593d8d3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Primary/Secondary Responsibility'
+		dataType: string
+		lineageTag: a68842a4-be2c-4a6b-958d-d9e5347e3caf
+		summarizeBy: none
+		sourceColumn: Primary/Secondary Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	column Responsibility
+		dataType: string
+		lineageTag: 6dd9df97-37c8-434e-a9c0-5da5f3bc1626
+		summarizeBy: none
+		sourceColumn: Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'X matrix' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"FinalXMatrix xlsx" = Source{[Name="FinalXMatrix.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"FinalXMatrix xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

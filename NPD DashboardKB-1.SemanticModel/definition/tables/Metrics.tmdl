@@ -1,0 +1,871 @@
+table Metrics
+	lineageTag: 58e91abb-cf18-4179-907b-b2bfea69ed51
+
+	measure Tot_projects = DISTINCTCOUNT('Part Details'[Project Name])
+		formatString: 0
+		lineageTag: 33f11eb4-8160-4c62-bc6e-87411197ec2f
+
+	measure status = ```
+			
+			var daysbet = DATEDIFF(MAX(Particulars[Plan]) , MAX(Particulars[Actual]),DAY)
+			var dayTod = DATEDIFF(MAX(Particulars[Plan]), TODAY(), DAY)
+			return IF(ISBLANK(MAX(Particulars[Plan])),
+			    BLANK(),
+			    IF( MAX(Particulars[Plan]) < TODAY() && ISBLANK(MAX(Particulars[Actual])),
+			        CONCATENATE(dayTod," Days Delayed"),
+			        IF(
+			            daysbet <= 0, 
+			            BLANK(), 
+			            CONCATENATE(daysbet, " Days Delayed")
+			        )
+			    )
+			)
+			```
+		lineageTag: d164e098-aba2-49db-9ce1-60e9b0bce099
+
+	measure bg_status =
+			
+			IF(ISBLANK(MAX(Particulars[Plan])),
+			    BLANK(),
+			    IF( NOT(ISBLANK(MAX(Particulars[Actual]))),
+			        "#35AD3F",
+			        IF( MAX(Particulars[Plan]) < TODAY() && ISBLANK(MAX(Particulars[Actual])),
+			            "#F63F1A",
+			            BLANK()
+			        )
+			    )
+			)
+		lineageTag: 1afc6a89-39fc-4738-b5dc-8e8bcb0c0d35
+
+	measure Total =
+			
+			var x = COUNT('Part Details'[final_phase])
+			return x
+		formatString: 0
+		lineageTag: ed74806f-1f3c-4c5a-86ea-eea0a225aad2
+
+	measure 'Total %' =
+			
+			var tot_ex_status = CALCULATE([Total], ALL(Phases[status]))
+			VAR tot_perc = DIVIDE([Total], tot_ex_status)
+			return IF(ISBLANK(tot_perc), 0, tot_perc)
+		formatString: 0%;-0%;0%
+		lineageTag: b7ca9018-b89e-4bc6-a7ef-a68d28152021
+
+	measure dest =
+			
+			IF( SELECTEDVALUE(Phases[status]) ="R", "Red parts list", "Green parts list")
+		lineageTag: eb776efa-e53b-4682-bfb1-7850bc5e1a4e
+
+	measure title =
+			
+			var x = SELECTEDVALUE('Part Details'[Customer])
+			return CONCATENATE(x," Build Plan")
+		lineageTag: d28de2a0-dcd6-4d90-8efd-d6c04e894577
+
+	measure 'part list heading' =
+			
+			var st = IF(SELECTEDVALUE(Phases[status]) = "R", "Red", "Green")
+			return CONCATENATE(st, " Parts List")
+		lineageTag: e98e70b6-4089-4ecc-a0f3-53b9245bd7dd
+
+	measure most_delayed_particular =
+			
+			var tab = ADDCOLUMNS(Particulars, "st", [plan - actual])
+			var maxST = CALCULATE(MAXX(tab, [st]))
+			var res = CALCULATE(MAX(Particulars[Particular]), FILTER(tab, [st] = maxST))
+			return res
+			
+			
+			
+			
+			
+			// var tab = ADDCOLUMNS(Particulars, "st", DATEDIFF(Particulars[Plan], IF(ISBLANK(Particulars[Actual]), TODAY(), Particulars[Actual]), DAY))
+			// var maxST = CALCULATE(MAXX(tab, [st]), FILTER(tab, [Plan] <= TODAY()))
+			// var res = CALCULATE(MAX(Particulars[Particular]), FILTER(tab, [st] = maxST))
+			// return res
+		lineageTag: 67f2f20a-78d7-41ba-a9d8-12592cad1ff9
+
+	measure most_delayed_part =
+			
+			// var tab = ADDCOLUMNS(Particulars, "status", DATEDIFF(Particulars[Plan], Particulars[Actual], DAY))
+			var tab = ADDCOLUMNS(Particulars, "st", [plan - actual])
+			var maxST = CALCULATE(MAXX(tab, [st]))
+			var res = CALCULATE(MAX('Part Details'[Part Name]), FILTER(tab, [st] = maxST))
+			return res
+		lineageTag: 1e5294cd-c22b-47f1-a91d-4a8529e38ac4
+
+	measure act_font_clr = IF(MIN(Particulars[Plan]) >= MIN(Particulars[Actual]), "#36ab16", "#f0351d")
+		lineageTag: 2bb58722-283a-4ead-833e-4a26c67c7e26
+
+	measure 'Completed Activities' = [Particulars with green status] + [Particulars with green status & delay]
+		formatString: 0
+		lineageTag: 308670ca-ad01-4984-8f2c-12a3c4ae6ef9
+
+	measure 'Particulars with red status' =
+			
+			var st = CALCULATE(COUNTROWS(Particulars), NOT(ISBLANK(Particulars[Plan])), FILTER(Particulars, Particulars[Plan] < TODAY() && ISBLANK(Particulars[Actual])))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: f058a363-4c76-4418-bde4-976b9129c0ab
+
+	measure 'Part with most no of delayed particulars' =
+			
+			var tab = ADDCOLUMNS('Part Details', "no of Dparti", [Completed Activities])
+			var maxDpart = MAXX(tab, [no of Dparti])
+			return CALCULATE(MAX('Part Details'[Part Name]), FILTER(tab, [no of Dparti] = maxDpart))
+		lineageTag: fa583ed4-f143-41a9-9b2c-e3fd12ed666f
+
+	measure 'Resp func with most no of delayed particulars' =
+			
+			var tab = SUMMARIZE(Particulars, Particulars[Responsible Function], "no of Dparti", [Completed Activities])
+			var maxDpart = MAXX(tab, [no of Dparti])
+			return CALCULATE(MAX(Particulars[Responsible Function]), FILTER(tab, [no of Dparti] = maxDpart))
+		lineageTag: 4785e74d-bfcc-4541-9bd2-b29518b45564
+
+	measure 'Resp pers with most no of delayed particulars' =
+			
+			var tab = SUMMARIZE(Particulars, Particulars[Responsible Person], "no of Dparti", [Completed Activities])
+			var maxDpart = MAXX(tab, [no of Dparti])
+			return CALCULATE(MAX(Particulars[Responsible Person]), FILTER(tab, [no of Dparti] = maxDpart))
+		lineageTag: 4bc4c824-a3f7-4e40-b241-0336898a0d32
+
+	measure 'Particulars with green status & delay' =
+			
+			var st = CALCULATE(COUNTROWS(Particulars), NOT(ISBLANK(Particulars[Plan])), Particulars[Actual] > Particulars[Plan], FILTER(Particulars, NOT(ISBLANK(Particulars[Actual]))))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: 1d4ef8cf-6beb-4c16-bc20-8437be74423f
+
+	measure 'On Time Completion %' = DIVIDE([Particulars with green status], [Total Particulars])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bf7b9fe8-3e21-4f6b-bb26-929d0f5189ef
+
+	measure 'Delayed particulars %' = DIVIDE([Particulars with red status], [Total Particulars])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 22efe15b-b594-48c8-b89b-dcb978729178
+
+	measure 'plan - actual' = ```
+			
+			var day_act_notblank = DATEDIFF(MAX(Particulars[Plan]) , MAX(Particulars[Actual]), DAY)
+			var day_act_isblank = DATEDIFF(MAX(Particulars[Plan]), TODAY(), DAY)
+			var res = IF(MAX(Particulars[Plan]) > TODAY() && MAX(Particulars[Actual]) < MAX(Particulars[Plan]), 
+			                blank(),
+			                IF(NOT ISBLANK(MAX(Particulars[Actual])),
+			                    day_act_notblank,
+			                    day_act_isblank
+			                )
+			)
+			return IF(NOT ISBLANK(MAX(Particulars[Actual])), BLANK(), res)
+			```
+		formatString: 0
+		lineageTag: f69361a1-fdae-44e0-9732-66f317a9a8bd
+
+	measure 'Total Particulars' = COUNTROWS(Particulars)
+		formatString: 0
+		lineageTag: a8de35fa-99dd-4eb8-a124-abb57ea17910
+
+	measure 'Particulars not started' =
+			
+			var res = CALCULATE(COUNTROWS(Particulars), ISBLANK(Particulars[Actual]), Particulars[Plan] >= TODAY() )
+			return res
+		formatString: 0
+		lineageTag: 50aee93a-3080-40ea-84a1-ff56e0279951
+
+	measure 'Particulars with no plan' =
+			
+			var res = CALCULATE(COUNTROWS(Particulars), ISBLANK(Particulars[Plan]))
+			return res
+		formatString: 0
+		lineageTag: ecb90f9a-d526-43d7-ae51-40a95d8ec0ad
+
+	measure 'Count Status' =
+			
+			var res = CALCULATE(COUNT('phase status'[Status]), 'phase status'[Phase] <> "Kick-off")
+			return res
+		formatString: 0
+		lineageTag: ff362ec0-d2a4-489e-b1b5-8dbf2d2d2ff1
+
+	measure 'Completed Activity %' =
+			
+			DIVIDE([Completed Activities], [Total Particulars])
+		formatString: 0%;-0%;0%
+		lineageTag: 2dbe5e56-1f77-4bc1-87cf-24c075df7b64
+
+	measure 'Activities Not Started %' = DIVIDE([Particulars with green status & delay], [Total Particulars])
+		formatString: 0%;-0%;0%
+		lineageTag: e53ac734-7ddd-434f-87e1-8b49703cd561
+
+	measure 'No Plan - Activities %' = DIVIDE([Particulars with no plan], [Total Particulars])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a2dc397f-5158-470b-9f10-2b360b63faa0
+
+	measure 'Total parts' = CALCULATE(COUNT('Part Details'[Part Number]), ALL('Phases'[status]))
+		formatString: 0
+		lineageTag: 5f346869-74e3-4e38-ac4f-aca8873040ca
+
+	measure 'No of completed delayed particular' = ```
+			
+			var res = CALCULATE(
+			    COUNTROWS(Particulars), 
+			    NOT ISBLANK(Particulars[Actual]),
+			    FILTER(Particulars,NOT ISBLANK([status]))
+			)
+			RETURN IF(ISBLANK(res), 0, res)
+			```
+		formatString: 0
+		lineageTag: 72420bf8-e024-456e-a204-b982b8835080
+
+	measure 'Particulars with green status' =
+			
+			var st = CALCULATE(COUNTROWS(Particulars), NOT(ISBLANK(Particulars[Plan])), Particulars[Actual] <= Particulars[Plan], FILTER(Particulars, NOT(ISBLANK(Particulars[Actual]))))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: 49f7b899-5a8b-4c13-8f9a-a345f7014cac
+
+	measure 'No of Cm occured and completed' = CALCULATE(COUNTROWS('Projects-CM'), 'Projects-CM'[Counter Measure Status] = "Occured and Completed")
+		formatString: 0
+		lineageTag: b1186379-d48d-4fae-a72a-6e9744c651b0
+
+	measure Completed_Count = CALCULATE(COUNT('Action_Plan'[Status]), 'Action_Plan'[Status] = "Completed")
+		formatString: 0
+		lineageTag: 16b0f0ba-5b2a-49ed-9d26-7dc4a11e8f42
+
+	measure Not_Completed_Count = CALCULATE(COUNT('Action_Plan'[Status]), 'Action_Plan'[Status] = "Not Completed")
+		formatString: 0
+		lineageTag: daffa139-8fac-4402-be58-610cfa83337c
+
+	measure Overdue_Not_Completed_Percentage = ```
+			
+			VAR OverdueCount = 
+			    CALCULATE(
+			        COUNTROWS('Action_Plan'),  
+			        'Action_Plan'[When] < TODAY(),  
+			        OR(
+			            ISBLANK('Action_Plan'[Status]),  
+			            'Action_Plan'[Status] = "Not Completed"  
+			        )
+			    )
+			
+			VAR TotalCount = COUNTROWS('Action_Plan')
+			
+			VAR Percentage = DIVIDE(OverdueCount, TotalCount, 0)
+			
+			RETURN 
+			IF(TotalCount = 0, BLANK(), FORMAT(Percentage, "0.0%"))
+			```
+		lineageTag: e6d3e837-e3dc-4191-b56c-f560660d29a0
+
+	measure Status_Not_Updated_Count = ```
+			
+			VAR NotUpdatedCount =
+			    CALCULATE(
+			        COUNTROWS('Action_Plan'),
+			        FILTER(
+			            'Action_Plan',
+			            NOT(ISBLANK('Action_Plan'[When])) &&
+			            'Action_Plan'[When] <= TODAY() &&
+			            (
+			                ISBLANK('Action_Plan'[Status]) ||
+			                'Action_Plan'[Status] <> "Blank"
+			            )
+			        )
+			    )
+			RETURN
+			    IF(NotUpdatedCount = 0, BLANK(), NotUpdatedCount)
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 6f329fc3-e3ed-487b-83e3-228233ed5b8e
+
+	measure Top_Overdue_Person = ```
+			
+			VAR SummaryTable = 
+			    SUMMARIZE(
+			        FILTER(
+			            'Action_Plan',
+			            'Action_Plan'[When] < TODAY() &&
+			            (ISBLANK('Action_Plan'[Status]) || 'Action_Plan'[Status] = "Not Completed")
+			        ),
+			        'Action_Plan'[Who], 
+			        "Overdue Count", COUNTROWS('Action_Plan')
+			    )
+			
+			VAR TopPerson = 
+			    TOPN(1, SummaryTable, [Overdue Count], DESC)
+			
+			RETURN
+			    MAXX(TopPerson, 'Action_Plan'[Who])  
+			```
+		lineageTag: 2eb026c9-ef23-4b5e-a0b3-e0601d88edb0
+
+	measure Corrective_Action_Not_Completed_Count = ```
+			
+			COALESCE(
+			    CALCULATE(
+			        COUNTROWS('Action_Plan'),
+			        'Action_Plan'[Type] = "Corrective Action",
+			        'Action_Plan'[Status] = "Not Completed"
+			    ), 
+			    0
+			)
+			```
+		formatString: 0
+		lineageTag: d38da454-d674-400c-966c-3e6aa0d9066a
+
+	measure Correction_Not_Completed_Count = ```
+			
+			COALESCE(
+			    CALCULATE(
+			        COUNTROWS('Action_Plan'),
+			        'Action_Plan'[Type] = "Correction",
+			        'Action_Plan'[Status] = "Not Completed"
+			    ), 
+			    0
+			)
+			
+			```
+		formatString: 0
+		lineageTag: d34d4516-d7ec-4f2e-ae21-2d0d29f11e67
+
+	measure 'No of Cm occured but not completed' = CALCULATE(COUNTROWS('Projects-CM'), 'Projects-CM'[Counter Measure Status] = "Occured but not Completed")
+		formatString: 0
+		lineageTag: 03be9565-3c73-4539-b19b-49f6bcfc692b
+
+	measure 'No of Cm potential to occur' = CALCULATE(COUNTROWS('Projects-CM'), 'Projects-CM'[Counter Measure Status] = "Potential to occur")
+		formatString: 0
+		lineageTag: 9dd7aa59-a49f-48b7-8a73-8196df77ba3e
+
+	measure 'Count of FLC' =
+			CALCULATE(
+			    DISTINCTCOUNT('X matrix'[First Level Causes]),
+			    not ISBLANK('X matrix'[counter_measure_new])
+			)
+		formatString: 0
+		lineageTag: 79e6e80c-0c7e-4b0a-a23d-ee70a822e1e8
+
+	measure 'count of FM' =
+			
+			var sn = SELECTEDVALUE('Projects-CM'[Sheet Name])
+			var tot = IF(not ISBLANK(sn),
+			    CALCULATE(
+			        DISTINCTCOUNT('X matrix'[Failure Mode]),
+			        'X matrix'[Sheet Name] = sn
+			    ),
+			    DISTINCTCOUNT('X matrix'[Failure Mode])
+			)
+			
+			return tot
+			
+			
+			// var sn = SELECTEDVALUE('Projects-CM'[Sheet Name])
+			// var tot = IF(not ISBLANK(sn),
+			//     CALCULATE(
+			//         DISTINCTCOUNT('X matrix'[Failure Mode]),
+			//         'X matrix'[Sheet Name] = sn
+			//     ),
+			//     DISTINCTCOUNT('X matrix'[Failure Mode])
+			// )
+			
+			// var blankCM = ADDCOLUMNS(
+			//     VALUES('X matrix'[Failure Mode]),
+			//     "blk",
+			//     COUNTBLANK('X matrix'[counter_measure_new]),
+			//     "total",
+			//     COUNT('X matrix'[counter_measure_new])
+			// )
+			
+			// var blankCount = IF(not ISBLANK(sn),
+			//     CALCULATE(
+			//         COUNTROWS(blankCM),
+			//         FILTER(blankCM, [blk] = [total]),
+			//         'X matrix'[Sheet Name] = sn
+			//     ),
+			//     CALCULATE(
+			//         COUNTROWS(blankCM),
+			//         FILTER(blankCM, [blk] = [total])
+			//     )
+			// )
+			// return tot - blankCount
+		formatString: 0
+		lineageTag: 2ff4c0eb-fa1e-4bdb-928c-e2d7e422758f
+
+	measure sel_sheet = SELECTEDVALUE('Projects-CM'[Sheet Name])
+		lineageTag: 23151caf-8459-4976-a44e-559e9377b741
+
+	measure count_CM = COUNT('Projects-CM'[Counter Measure Status])
+		formatString: 0
+		lineageTag: da4c3e63-0b6d-4919-abfc-0f51187b63f4
+
+	measure act_font_clr_Phase = IF(MIN('phase status'[Formatted Date Actual]) >= MIN('phase status'[Formatted Date Plan]), "#36ab16", "#f0351d")
+		lineageTag: aa1f28ad-fb0f-49bd-94dc-f4919134f3b6
+
+	measure 'Overdue Items' = ```
+			
+			CALCULATE(
+			    COUNTROWS('Action_plan-1'),
+			    'Action_plan-1'[Revised Commitment date] < TODAY(),
+			    'Action_plan-1'[Status] <> "G"
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 64537234-645a-47ca-b971-718194d07a76
+
+	measure 'Red Count' = ```
+			CALCULATE(COUNTROWS('Action_plan-1'), 'Action_plan-1'[Status] = "R")
+			
+			
+			```
+		formatString: 0
+		lineageTag: 9d6f951d-0abe-4800-b5dc-fb0b5e676290
+
+	measure 'Total Items' = ```
+			COUNTROWS('Action_plan-1')
+			
+			```
+		formatString: 0
+		lineageTag: fc629a7a-43c9-4fb2-962d-d3ef5716074d
+
+	measure 'Top At-Risk Resp' = ```
+			
+			VAR SummaryTable =
+			    ADDCOLUMNS(
+			        SUMMARIZE('Action_plan-1', 'Action_plan-1'[Resp]),
+			        "NotGreenCount",
+			        CALCULATE(
+			            COUNTROWS('Action_plan-1'),
+			            'Action_plan-1'[Status] <> "G",
+			            'Action_plan-1'[Revised Commitment date] <= TODAY()
+			        )
+			    )
+			VAR MaxCount =
+			    MAXX(SummaryTable, [NotGreenCount])
+			VAR TopResps =
+			    FILTER(SummaryTable, [NotGreenCount] = MaxCount)
+			RETURN
+			    CONCATENATEX(TopResps, 'Action_plan-1'[Resp], ", ")
+			
+			
+			
+			
+			
+			```
+		lineageTag: cdd4a1d8-a57c-4d8e-ab34-b35a681e8d17
+
+	measure 'Top At-Risk Dept' = ```
+			
+			VAR SummaryTable =
+			    ADDCOLUMNS(
+			        SUMMARIZE('Action_plan-1', 'Action_plan-1'[Dept]),
+			        "NotGreenCount",
+			        CALCULATE(
+			            COUNTROWS('Action_plan-1'),
+			            'Action_plan-1'[Status] <> "G",
+			            'Action_plan-1'[Revised Commitment date] <= TODAY()
+			        )
+			    )
+			VAR MaxCount =
+			    MAXX(SummaryTable, [NotGreenCount])
+			VAR TopDepts =
+			    FILTER(SummaryTable, [NotGreenCount] = MaxCount)
+			RETURN
+			    CONCATENATEX(TopDepts, 'Action_plan-1'[Dept], ", ")
+			
+			
+			```
+		lineageTag: 126a61fb-c42c-4668-bbaf-8bd48e46fd27
+
+	measure ProtoStatus = ```
+			
+			var daysbet = DATEDIFF(MAX(ProtoActivity[Plan]) , MAX(ProtoActivity[Actual]),DAY)
+			var dayTod = DATEDIFF(MAX(ProtoActivity[Plan]), TODAY(), DAY)
+			return IF(ISBLANK(MAX(ProtoActivity[Plan])),
+			    BLANK(),
+			    IF( MAX(ProtoActivity[Plan]) < TODAY() && ISBLANK(MAX(ProtoActivity[Actual])),
+			        CONCATENATE(dayTod," Days Delayed"),
+			        IF(
+			            daysbet <= 0, 
+			            BLANK(), 
+			            CONCATENATE(daysbet, " Days Delayed")
+			        )
+			    )
+			)
+			```
+		lineageTag: a18d476a-7511-48c4-820b-0b117e422353
+
+	measure 'Target Variance (Days)' = ```
+			
+			AVERAGEX(
+			    'Action_plan-1',
+			    DATEDIFF('Action_plan-1'[Target], 'Action_plan-1'[Revised Commitment date], DAY)
+			)
+			
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 3d0cd007-e59e-431e-b33e-65153f5d221b
+
+	measure Proto_bg_status =
+			
+			IF(ISBLANK(MAX(ProtoActivity[Plan])),
+			    BLANK(),
+			    IF( NOT(ISBLANK(MAX(ProtoActivity[Actual]))),
+			        "#35AD3F",
+			        IF( MAX(ProtoActivity[Plan]) < TODAY() && ISBLANK(MAX(ProtoActivity[Actual])),
+			            "#F63F1A",
+			            BLANK()
+			        )
+			    )
+			)
+		lineageTag: 7602ca51-4442-4228-a331-59883c04dc84
+
+	measure 'Proto_Total Particulars' = COUNTROWS(ProtoActivity)
+		formatString: 0
+		lineageTag: 91e559ec-e412-47d8-a722-bce8bccf4ff0
+
+	measure 'ProtoActivity with green status & delay' =
+			
+			var st = CALCULATE(COUNTROWS(ProtoActivity), NOT(ISBLANK(ProtoActivity[Plan])), ProtoActivity[Actual] > ProtoActivity[Plan], FILTER(ProtoActivity, NOT(ISBLANK(ProtoActivity[Actual]))))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: 9b72afb4-180c-4f60-b757-692b4c7433b5
+
+	measure 'ProtoActivity with green status' =
+			
+			var st = CALCULATE(COUNTROWS(ProtoActivity), NOT(ISBLANK(ProtoActivity[Plan])), ProtoActivity[Actual] <= ProtoActivity[Plan], FILTER(ProtoActivity, NOT(ISBLANK(ProtoActivity[Actual]))))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: e5d535cf-4c2d-4faf-81ae-65b84debaa34
+
+	measure 'Proto_Completed Activities' = ```
+			[ProtoActivity with green status] + [ProtoActivity with green status & delay]
+			
+			```
+		lineageTag: 1358d757-ccbd-4033-a009-5808b7841526
+
+	measure 'ProtoActivity with red status' =
+			
+			var st = CALCULATE(COUNTROWS(ProtoActivity), NOT(ISBLANK(ProtoActivity[Plan])), FILTER(ProtoActivity, ProtoActivity[Plan] < TODAY() && ISBLANK(ProtoActivity[Actual])))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: dd60883e-bc57-4412-9644-a3a33254bbfd
+
+	measure 'Completed ProtoActivity %' =
+			
+			DIVIDE([Proto_Completed Activities], [Proto_Total Particulars])
+		lineageTag: da52b4ee-c362-4b99-80b9-571b1b89a9ac
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Proto_On Time Completion %' = DIVIDE([ProtoActivity with green status], [Proto_Total Particulars])
+		lineageTag: 716c72f5-a57c-41e9-8cba-cb67fc82f756
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ProtoActivity Not Started %' = DIVIDE([ProtoActivity with green status & delay], [Proto_Total Particulars])
+		lineageTag: 436bf4f8-8668-4436-abb5-845de94a35b9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Delayed ProtoActivity %' = DIVIDE([ProtoActivity with red status], [Proto_Total Particulars])
+		lineageTag: 69360f1c-f484-434f-b433-61d1e5aa1e51
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Proto_Plan_Actual_Delay = ```
+			
+			VAR PlanDate = MAX(ProtoActivity[Plan])
+			VAR ActualDate = MAX(ProtoActivity[Actual])
+			
+			RETURN
+			IF (
+			    ISBLANK(ActualDate) && PlanDate < TODAY(),
+			    DATEDIFF(PlanDate, TODAY(), DAY),
+			    BLANK()
+			)
+			
+			
+			```
+		formatString: 0
+		lineageTag: f2164d1b-ef7c-40f1-b617-b85edc4d4583
+
+	measure proto_act_font_clr = ```
+			
+			IF(
+			    [ProtoPlanMonth] <= [ProtoActualMonth],
+			    "#36ab16",
+			    "#f0351d"
+			)
+			
+			
+			```
+		lineageTag: bbe0d273-0a06-4a9f-9053-7c2e27077a93
+
+	measure PlanFontColor = ```
+			
+			VAR CurrentMonthText = SELECTEDVALUE('ProtoMonthPlan'[MonthYearFormatted])
+			
+			-- Convert text to date handling 2-digit or 4-digit year
+			VAR ParsedDate =
+			    IF (
+			        LEN(TRIM(CurrentMonthText)) > 7,  -- Assume format "MMM, YYYY"
+			        DATEVALUE("01 " & CurrentMonthText),
+			        -- else 2-digit year, like "June, 25"
+			        DATEVALUE("01 " & LEFT(CurrentMonthText, LEN(CurrentMonthText)-3) & " 20" & RIGHT(CurrentMonthText, 2))
+			    )
+			
+			-- Previous month date
+			VAR PrevMonthDate = EOMONTH(ParsedDate, -1)
+			
+			-- Format back to "MMMM, YYYY"
+			VAR PrevMonthText = FORMAT(PrevMonthDate, "MMMM, yyyy")
+			
+			-- Check if previous month has Plan <> Actual mismatch
+			VAR HasMismatch =
+			    CALCULATE(
+			        COUNTROWS('ProtoMonthPlan'),
+			        FILTER(
+			            'ProtoMonthPlan',
+			            'ProtoMonthPlan'[MonthYearFormatted] = PrevMonthText &&
+			            NOT(ISBLANK('ProtoMonthPlan'[Plan])) &&
+			            NOT(ISBLANK('ProtoMonthPlan'[Actual])) &&
+			            'ProtoMonthPlan'[Plan] <> 'ProtoMonthPlan'[Actual]
+			        )
+			    )
+			
+			RETURN
+			IF(HasMismatch > 0, "#FFFF00", "#000000")
+			
+			
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 24156891-84d8-4762-84e3-dacce5880c32
+
+	measure PlanVsActualFontColor = ```
+			
+			VAR PlanValue = SELECTEDVALUE(ProtoMonthPlan[Plan])
+			VAR ActualValue = SELECTEDVALUE(ProtoMonthPlan[Actual])
+			
+			RETURN
+			IF (
+			    ISBLANK(ActualValue) || ISBLANK(PlanValue),
+			    "#000000",  -- black if data missing
+			    IF(ActualValue < PlanValue, "#FF0000", "#008000")  -- red or green
+			)
+			
+			```
+		lineageTag: 1a6fbe90-80ba-4f98-b746-2f85c9143f9c
+
+	measure PlanHighlightNextMonth = ```
+			
+			VAR CurrentDate = SELECTEDVALUE(ProtoMonthPlan[MonthYearFormatted])
+			VAR CurrentPart = SELECTEDVALUE(ProtoMonthPlan[Part Number])
+			VAR PrevMonth = EOMONTH(CurrentDate, -1)
+			
+			-- Check for mismatch for the same Part Number in the previous month
+			VAR HasMismatch =
+			    CALCULATE(
+			        COUNTROWS(ProtoMonthPlan),
+			        FILTER(
+			            ALL(ProtoMonthPlan),
+			            ProtoMonthPlan[Part Number] = CurrentPart &&
+			            EOMONTH(ProtoMonthPlan[MonthYearFormatted], 0) = PrevMonth &&
+			            NOT(ISBLANK(ProtoMonthPlan[Plan])) &&
+			            NOT(ISBLANK(ProtoMonthPlan[Actual])) &&
+			            ProtoMonthPlan[Plan] <> ProtoMonthPlan[Actual]
+			        )
+			    )
+			
+			RETURN
+			IF(HasMismatch > 0, "#FFFF00", "#000000")
+			
+			
+			
+			```
+		lineageTag: 6441f04b-bf17-4d20-9b8c-f18e81861087
+
+	measure Proto_TotalPlan = SUM('ProtoMonthPlan'[Plan])
+		formatString: 0
+		lineageTag: c040b27c-1679-49b4-af13-f4e41a67c789
+
+	measure CurrentMonthPlan = ```
+			
+			CALCULATE(
+			    SUM('ProtoMonthPlan'[Plan]),
+			    FILTER(
+			        'ProtoMonthPlan',
+			        YEAR('ProtoMonthPlan'[MonthYearFormatted]) = YEAR(TODAY()) &&
+			        MONTH('ProtoMonthPlan'[MonthYearFormatted]) = MONTH(TODAY())
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: b47c5139-6661-4c9c-9a6b-1c031a6adb42
+
+	measure LastMonthNotAchieved = ```
+			
+			VAR LastMonthDate = EOMONTH(TODAY(), -1)  -- End of last month
+			RETURN
+			CALCULATE(
+			    SUM('ProtoMonthPlan'[Plan]) - SUM('ProtoMonthPlan'[Actual]),
+			    FILTER(
+			        'ProtoMonthPlan',
+			        YEAR('ProtoMonthPlan'[MonthYearFormatted]) = YEAR(LastMonthDate) &&
+			        MONTH('ProtoMonthPlan'[MonthYearFormatted]) = MONTH(LastMonthDate)
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 41788583-7e6b-4f5b-8b76-00a27f2d48a8
+
+	measure proto_TotalActual = Sum(ProtoMonthPlan[Actual])
+		formatString: 0
+		lineageTag: 95939efe-d671-4817-9c60-724b201ab3f4
+
+	measure CurrentMonthActual = ```
+			
+			COALESCE(
+			    CALCULATE(
+			        SUM('ProtoMonthPlan'[Actual]),
+			        FILTER(
+			            'ProtoMonthPlan',
+			            YEAR('ProtoMonthPlan'[MonthYearFormatted]) = YEAR(TODAY()) &&
+			            MONTH('ProtoMonthPlan'[MonthYearFormatted]) = MONTH(TODAY())
+			        )
+			    ),
+			    0
+			)
+			
+			
+			```
+		formatString: 0
+		lineageTag: 78d5f191-0ab2-42a9-bc39-554adac31e72
+
+	measure 'No of completed delayed proto' = ```
+			
+			var res = CALCULATE(
+			    COUNTROWS(ProtoActivity), 
+			    NOT ISBLANK(ProtoActivity[Actual]),
+			    FILTER(ProtoActivity,NOT ISBLANK([status]))
+			)
+			RETURN IF(ISBLANK(res), 0, res)
+			```
+		formatString: 0
+		lineageTag: 362e85f0-2e1c-4d99-87ce-e3012cb982bd
+
+	measure ProtoPlanMonth = SUM(ProtoMonthPlan[Plan])
+		formatString: 0
+		lineageTag: 98915999-bf74-468c-b983-2ce967fe4b49
+
+	measure ProtoActualMonth = SUM(ProtoMonthPlan[Actual])
+		formatString: 0
+		lineageTag: 8b103d29-2ecb-4cc5-a60b-6a65af326ca5
+
+	measure proto_act_font = IF(MIN(ProtoActivity[Plan]) >= MIN(ProtoActivity[Actual]), "#36ab16", "#f0351d")
+		lineageTag: 2a4a902b-099e-402f-bc4e-aed37a2b19cd
+
+	measure act_font_Proto_part = IF(MIN(ProtoPartsDetails[Plan]) >= MIN(ProtoPartsDetails[Actual]), "#36ab16", "#f0351d")
+		formatString: 0
+		lineageTag: 5ca33a9a-31b2-4701-92fc-3489adc20c0b
+
+	measure 'Particulars with red status proto' =
+			
+			var st = CALCULATE(COUNTROWS(ProtoActivity), NOT(ISBLANK(ProtoActivity[Plan])), FILTER(ProtoActivity, ProtoActivity[Plan] < TODAY() && ISBLANK(ProtoActivity[Actual])))
+			return IF(ISBLANK(st), 0, st)
+		formatString: 0
+		lineageTag: a3bfc7ab-4d18-473d-b1fb-2dd895232ed3
+
+	measure Completed_parts_status = ```
+			
+			var daysbet = DATEDIFF(MAX('Completed Particulars Details'[Plan]) , MAX('Completed Particulars Details'[Actual]),DAY)
+			var dayTod = DATEDIFF(MAX('Completed Particulars Details'[Plan]), TODAY(), DAY)
+			return IF(ISBLANK(MAX('Completed Particulars Details'[Plan])),
+			    BLANK(),
+			    IF( MAX('Completed Particulars Details'[Plan]) < TODAY() && ISBLANK(MAX('Completed Particulars Details'[Actual])),
+			        CONCATENATE(dayTod," Days Delayed"),
+			        IF(
+			            daysbet <= 0, 
+			            BLANK(), 
+			            CONCATENATE(daysbet, " Days Delayed")
+			        )
+			    )
+			)
+			```
+		lineageTag: fc1c12f0-4e29-40ec-a11f-127eca326da9
+
+	measure Completed_act_font_clr = IF(MIN('Completed Particulars Details'[Plan]) >= MIN('Completed Particulars Details'[Actual]), "#36ab16", "#f0351d")
+		lineageTag: 1888b32c-f9b3-4204-b056-f649c7747b10
+
+	measure Completed_bg_status =
+			
+			IF(ISBLANK(MAX('Completed Particulars Details'[Plan])),
+			    BLANK(),
+			    IF( NOT(ISBLANK(MAX('Completed Particulars Details'[Actual]))),
+			        "#35AD3F",
+			        IF( MAX('Completed Particulars Details'[Plan]) < TODAY() && ISBLANK(MAX('Completed Particulars Details'[Actual])),
+			            "#F63F1A",
+			            BLANK()
+			        )
+			    )
+			)
+		lineageTag: f38663e1-4b68-4f66-9764-c5c250c9043a
+
+	measure Top5_Delayed_Activities = ```
+			
+			VAR PlanDate = MAX(ProtoActivity[Plan])
+			VAR ActualDate = MAX(ProtoActivity[Actual])
+			VAR DelayDays = 
+			    IF(
+			        ISBLANK(ActualDate),
+			        DATEDIFF(PlanDate, TODAY(), DAY),
+			        BLANK()
+			    )
+			VAR RankMeasure = 
+			    RANKX(
+			        FILTER(
+			            ALL(ProtoActivity),
+			            ISBLANK(ProtoActivity[Actual]) && NOT(ISBLANK(ProtoActivity[Plan]))
+			        ),
+			        DATEDIFF(MAX(ProtoActivity[Plan]), TODAY(), DAY),
+			        ,
+			        ASC,
+			        DENSE
+			    )
+			RETURN 
+			    IF(RankMeasure < 5, DelayDays, BLANK())
+			
+			
+			
+			
+			
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 94e047e3-7982-44d8-a15a-ed21098f11fc
+
+	partition Metrics = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,295 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 497.25,
+            "y": 270.375
+          },
+          "nodeIndex": "Part Details",
+          "nodeLineageTag": "4a4fb14f-5fcb-4a10-bfd4-a544c7099090",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 880.5,
+            "y": 64.375
+          },
+          "nodeIndex": "Particulars",
+          "nodeLineageTag": "bacd409e-78aa-46b6-8b02-50f10d100390",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1833,
+            "y": 277.375
+          },
+          "nodeIndex": "Metrics",
+          "nodeLineageTag": "58e91abb-cf18-4179-907b-b2bfea69ed51",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 17.307692307692307,
+            "y": 479.85576923076923
+          },
+          "nodeIndex": "Milestone Details",
+          "nodeLineageTag": "2706a306-6227-41ac-8673-168707ae5187",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 886.75,
+            "y": 456.875
+          },
+          "nodeIndex": "phase status",
+          "nodeLineageTag": "2f129353-a9a0-4dc5-8e3b-1d2fb347bbab",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 850.22435897435912,
+            "y": 710.30448717948718
+          },
+          "nodeIndex": "Phases",
+          "nodeLineageTag": "c68a95fe-8900-435d-989a-c5be1a2a8abb",
+          "size": {
+            "height": 160.25,
+            "width": 271.5
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 122.69230769230768,
+            "y": 26.666666666666668
+          },
+          "nodeIndex": "Customer segment",
+          "nodeLineageTag": "eff2644e-b921-4aef-897a-6300181b338e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1.6666666666666572,
+            "y": 1048.5544871794873
+          },
+          "nodeIndex": "X matrix",
+          "nodeLineageTag": "e4d2eb31-3a9f-4e0c-8851-708a4a30edb2",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 324.73076923076923,
+            "y": 742.125
+          },
+          "nodeIndex": "Projects-CM",
+          "nodeLineageTag": "2b5c1dd8-ea29-4ec3-9932-c3d56f66da2a",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 426.58333333333326,
+            "y": 25
+          },
+          "nodeIndex": "PDC table",
+          "nodeLineageTag": "d80a6a32-72ee-4a9e-b6c2-b357d648c2be",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1318.3461538461538,
+            "y": 895.91826923076917
+          },
+          "nodeIndex": "Part images",
+          "nodeLineageTag": "064b2bf4-c298-409e-b4b4-5d775930ce9e",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1682.6666666666665,
+            "y": 498.27724358974359
+          },
+          "nodeIndex": "4W1H-Analysis",
+          "nodeLineageTag": "b0c90f86-ed44-4334-bfc1-d0939785672c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1228.6666666666665,
+            "y": 448.27724358974353
+          },
+          "nodeIndex": "Action_Plan",
+          "nodeLineageTag": "56e9a97d-48e4-4a9e-a9f1-e68780cd4d19",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 610.333333333333,
+            "y": 1161.2772435897436
+          },
+          "nodeIndex": "Bridge-Sheet",
+          "nodeLineageTag": "6988ac5e-8ae8-43f7-b3e2-6a43e6fa3554",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 828.97195512820508
+          },
+          "nodeIndex": "Bridge-Resp",
+          "nodeLineageTag": "ea10c66f-e063-469e-bfca-96c188eb7603",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1492,
+            "y": 25
+          },
+          "nodeIndex": "Action_plan-1",
+          "nodeLineageTag": "d70e9b3a-034b-4cbf-b09f-e1af8c2b479b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 2368.4438302515055,
+            "y": 451.21273481478858
+          },
+          "nodeIndex": "ProtoMonthPlan",
+          "nodeLineageTag": "5f5000ff-3efb-491d-b333-d10b2fcce259",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 2461.7783792914006,
+            "y": 860.11200158705685
+          },
+          "nodeIndex": "ProtoActivity",
+          "nodeLineageTag": "be3a4d51-a77e-4207-995a-128725dcb0ba",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 1996.666666666667,
+            "y": 785.77724358974365
+          },
+          "nodeIndex": "ProtoPartsDetails",
+          "nodeLineageTag": "50a2fdda-fe6b-434c-ae95-2c840026bf57",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 3079.7783792914006,
+            "y": 462.77724358974365
+          },
+          "nodeIndex": "Completed Particulars Details",
+          "nodeLineageTag": "58874ba9-67a4-4516-ac79-a4f13d9e64b2",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2795.7783792914006,
+            "y": 460.77724358974365
+          },
+          "nodeIndex": "Completed parts Details",
+          "nodeLineageTag": "345ce546-f074-4436-ac96-66f3e5aa0b30",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 37.972252633940414,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

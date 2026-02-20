@@ -1,0 +1,153 @@
+table ProtoMonthPlan
+	lineageTag: 5f5000ff-3efb-491d-b333-d10b2fcce259
+
+	column 'Financial Year'
+		dataType: string
+		lineageTag: 7f48003f-f534-4f66-8abc-1ce3e5f0d8dc
+		summarizeBy: none
+		sourceColumn: Financial Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 7997b9a1-5762-4c63-bfac-9edcbd31c39a
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: string
+		lineageTag: 3dbfd80b-a75c-40e5-9daa-2bf2c3093466
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: int64
+		formatString: 0
+		lineageTag: 49f324c0-a3a7-4456-bff5-d82803c6364c
+		summarizeBy: sum
+		sourceColumn: Plan
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Actual
+		dataType: int64
+		formatString: 0
+		lineageTag: 61d698cf-bdeb-41f2-9bcb-f11506f0b945
+		summarizeBy: sum
+		sourceColumn: Actual
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthYearFormatted = ```
+			
+			VAR YearNum = INT('ProtoMonthPlan'[MonthSort] / 100)
+			VAR MonthNum = MOD('ProtoMonthPlan'[MonthSort], 100)
+			RETURN 
+			FORMAT(MonthNum, "00") & "-" & FORMAT(YearNum, "0000")
+			```
+		dataType: dateTime
+		formatString: mmmm\, yyyy
+		lineageTag: 21d53509-55e0-406f-932b-b243b5b69b43
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column MonthSort =
+			
+			VAR MonthAbbrev = LEFT('ProtoMonthPlan'[Date], 3)
+			VAR YearSuffix = RIGHT('ProtoMonthPlan'[Date], 2)
+			VAR Year = 2000 + VALUE(YearSuffix)
+			
+			VAR MonthNum = SWITCH(
+			    MonthAbbrev,
+			    "Jan", 1,
+			    "Feb", 2,
+			    "Mar", 3,
+			    "Apr", 4,
+			    "May", 5,
+			    "Jun", 6,
+			    "Jul", 7,
+			    "Aug", 8,
+			    "Sep", 9,
+			    "Oct", 10,
+			    "Nov", 11,
+			    "Dec", 12,
+			    BLANK()
+			)
+			
+			RETURN Year * 100 + MonthNum
+		lineageTag: 81c2adb3-af09-443f-a951-e7d6e903f9a8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Customer
+		dataType: string
+		lineageTag: dbde59d7-a22d-455b-aa73-0af8a1918696
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Project
+		dataType: string
+		lineageTag: f2e8389e-eb3e-4648-bb50-f4f8faa8514b
+		summarizeBy: none
+		sourceColumn: Project
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Name'
+		dataType: string
+		lineageTag: 101a8381-6ac2-4986-804f-49f7a0b3a41f
+		summarizeBy: none
+		sourceColumn: Part Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column CombinedDetails = ```
+			
+			'ProtoMonthPlan'[Customer] & ", " &
+			'ProtoMonthPlan'[Project] & ", " &
+			'ProtoMonthPlan'[Part Name] & ", " &
+			'ProtoMonthPlan'[Part Number]
+			
+			```
+		lineageTag: a452e815-be99-42ce-a071-d4f097653eda
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProtoMonthPlan = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Final Proto xlsx" = Source{[Name="Final Proto.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Final Proto xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

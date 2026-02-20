@@ -1,0 +1,25 @@
+table Bridge-Sheet
+	lineageTag: 6988ac5e-8ae8-43f7-b3e2-6a43e6fa3554
+
+	column 'Sheet Name'
+		dataType: string
+		lineageTag: e948b6ae-8aab-4143-9821-c620d92881ff
+		summarizeBy: none
+		sourceColumn: Sheet Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Bridge-Sheet = m
+		mode: import
+		source =
+				let
+				    Source = #"Projects-CM",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Sheet Name"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

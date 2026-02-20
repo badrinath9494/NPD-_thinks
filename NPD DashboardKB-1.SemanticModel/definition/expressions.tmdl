@@ -1,0 +1,156 @@
+expression 'Sharepoint url' = "https://apdscl.sharepoint.com/sites/NPDDashboard/Shared%20Documents/NPD%20Dashboard%20Tables" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: a84c22e9-e8eb-41fd-8c59-80ea367e820d
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression 'Sharepoint folder' =
+		let
+		    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+		    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+		    #"NPD Dashboard Tables" = #"Shared Documents"{[Name="NPD Dashboard Tables"]}[Content]
+		in
+		    #"NPD Dashboard Tables"
+	lineageTag: 1f626723-1fa1-40b8-82ca-abdcf243ca71
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in Milestone Details' =
+		let
+		Source = #"Milestone Details",
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Project ID", "Project Name", "Customer ID", "Customer Name", "Customer Milestone Details", "Customer Plan", "SCL Milestone Details", "SCL Plan", "SCL Actual", "SCL Status"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Project ID", "Project Name", "Customer ID", "Customer Name", "Customer Milestone Details", "Customer Plan", "SCL Milestone Details", "SCL Plan", "SCL Actual", "SCL Status"})
+		in
+		  #"Reordered Columns"
+	lineageTag: 41a0835d-394a-47f9-978e-0cfc2f6f2d22
+	queryGroup: 'Query Errors - 27-03-2025 14:31:24'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression ProtoMonthPlan1 =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\GadupudiBadrinath\Downloads\Final Proto.xlsx"), null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 5f340685-cf82-40a1-88f6-d39160dfd202
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression ProtoActivity1 =
+		let
+		    Source = Excel.Workbook(File.Contents(#"Sharepoint url"), null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", type text}, {"Stage", type text}, {"Particular", type text}, {"Responsible Function", type text}, {"Responsible Person", type text}, {"Plan", type datetime}, {"Actual", type datetime}, {"Remark", type text}}),
+		    #"Removed Bottom Rows" = Table.RemoveLastN(#"Changed Type",15),
+		    #"Added Index" = Table.AddIndexColumn(#"Removed Bottom Rows", "Index", 1, 1, Int64.Type),
+		    #"Removed Columns" = Table.RemoveColumns(#"Added Index",{"Index"})
+		in
+		    #"Removed Columns"
+	lineageTag: 97b53f0c-fb9d-4fc5-a495-afdc5585d100
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression ProtoPartsDetails1 =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\GadupudiBadrinath\Downloads\Final Proto Parts List.xlsx"), null, true),
+		    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: 322c6819-e1a9-4356-84dd-aa22c98f2d58
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression 'Errors in ProtoMonthPlan' =
+		let
+		Source = ProtoMonthPlan,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Financial Year", "Part Number", "Date", "Plan", "Actual"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Financial Year", "Part Number", "Date", "Plan", "Actual"})
+		in
+		  #"Reordered Columns"
+	lineageTag: ea78260f-a72c-4ef8-a08e-9b2fc24ddce6
+	queryGroup: 'Query Errors - 29-05-2025 09:42:49'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in Particulars' =
+		let
+		Source = Particulars,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Part Number", "Phase ID", "Phase", "Particular ID", "Particular", "Plan", "Actual", "Responsible Function", "Responsible Person", "seq"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "Part Number", "Phase ID", "Phase", "Particular ID", "Particular", "Plan", "Actual", "Responsible Function", "Responsible Person", "seq"})
+		in
+		  #"Reordered Columns"
+	lineageTag: 97cd34d2-5dbf-4017-9027-31c2e773f815
+	queryGroup: 'Query Errors - 24-06-2025 12:59:54'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Errors in Particulars (2)' =
+		let
+		Source = Particulars,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Detected Type Mismatches",{{"Actual", type date}}),
+		  #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"Part Number", "Phase ID", "Phase", "Particular ID", "Particular", "Plan", "Actual", "Responsible Function", "Responsible Person", "seq"}),
+		    Actual = try Date.From(#"Kept Errors"{0}[Actual]) otherwise null
+		in
+		    Actual
+	lineageTag: d3e0f48d-1932-4ab8-a828-a296726e8e60
+	queryGroup: 'Query Errors - 24-06-2025 13:05:42'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Null
+

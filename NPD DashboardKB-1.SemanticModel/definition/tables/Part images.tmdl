@@ -1,0 +1,39 @@
+table 'Part images'
+	lineageTag: 064b2bf4-c298-409e-b4b4-5d775930ce9e
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 34ae164e-33fb-4ae7-8e78-15de7a17755e
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column URL
+		dataType: string
+		lineageTag: 7f5d29c4-fb08-4e37-b083-cd9e9b10728f
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: URL
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Part images' = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+				    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+				    #"Sketch  Excel file" = #"Shared Documents"{[Name="Sketch  Excel file"]}[Content],
+				    #"Image in SCL xlsx" = #"Sketch  Excel file"{[Name="Image in SCL.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Image in SCL xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", type text}, {"URL", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

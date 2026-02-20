@@ -1,0 +1,26 @@
+table Bridge-Resp
+	lineageTag: ea10c66f-e063-469e-bfca-96c188eb7603
+
+	column Responsibility
+		dataType: string
+		lineageTag: 048e8f7c-1b98-4e97-b47e-fd0b82496f13
+		summarizeBy: none
+		sourceColumn: Responsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Bridge-Resp = m
+		mode: import
+		source =
+				let
+				    Source = #"Projects-CM",
+				    #"Appended Query" = Table.Combine({Source, #"X matrix"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Appended Query",{"Responsibility"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

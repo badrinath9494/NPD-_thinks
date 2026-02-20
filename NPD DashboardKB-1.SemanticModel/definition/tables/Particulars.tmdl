@@ -1,0 +1,174 @@
+table Particulars
+	lineageTag: 1e48031b-1c14-4081-ae39-1fbd5758a039
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: ead0f03e-186d-4aa2-8b56-1f0029177619
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phase ID'
+		dataType: string
+		lineageTag: 352850ef-7c0c-484c-98e7-69dfab4e304b
+		summarizeBy: none
+		sourceColumn: Phase ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phase
+		dataType: string
+		lineageTag: 026a66be-d1fa-49d4-9ab0-6b76d9c7b969
+		summarizeBy: none
+		sourceColumn: Phase
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Particular ID'
+		dataType: string
+		lineageTag: 8b2174fc-7042-4aa8-9352-33fa306976cc
+		summarizeBy: none
+		sourceColumn: Particular ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Particular
+		dataType: string
+		lineageTag: 30c85b31-0a2f-4dab-8817-ecf6f16783ca
+		summarizeBy: none
+		sourceColumn: Particular
+		sortByColumn: seq
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 5f996161-09ef-4227-a8a4-440c853c9cdf
+		summarizeBy: none
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Actual
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 2ac11adb-caf8-4f65-b3a1-318405165bf7
+		summarizeBy: none
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Responsible Function'
+		dataType: string
+		lineageTag: ddbf0b26-8f5d-4b3d-9a1d-069c5b117e7d
+		summarizeBy: none
+		sourceColumn: Responsible Function
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Responsible Person'
+		dataType: string
+		lineageTag: c6407d3b-9885-44a4-87c6-03a20a5db7e3
+		summarizeBy: none
+		sourceColumn: Responsible Person
+
+		annotation SummarizationSetBy = Automatic
+
+	column seq
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c6c0dac-388c-449f-8b2c-97b457af7752
+		summarizeBy: sum
+		sourceColumn: seq
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Plan' = ```
+			
+			FORMAT([Plan], "dd-mmm-yy")
+			
+			```
+		lineageTag: da3e8a98-de02-45b8-bb47-45ee4df19f15
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Actual' = ```
+			
+			FORMAT([Actual], "dd-mmm-yy")
+			
+			```
+		lineageTag: 7d9756a0-56fb-434e-9d46-7a9a91f58cbd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDelayed =
+			
+			IF (
+			    ISBLANK('Particulars'[Plan]) && ISBLANK('Particulars'[Actual]),
+			    BLANK(),
+			    IF (
+			        ISBLANK('Particulars'[Actual]),
+			        IF('Particulars'[Plan] < TODAY(), 1, 0),
+			        0
+			    )
+			)
+		formatString: 0
+		lineageTag: fe70fb08-d9f8-4e96-97bf-1cf86df2acf4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DelayDays_Status = ```
+			
+			IF(
+			    ISBLANK('Particulars'[Actual]),
+			    DATEDIFF('Particulars'[Plan], TODAY(), DAY),
+			    DATEDIFF('Particulars'[Plan], 'Particulars'[Actual], DAY)
+			)
+			
+			```
+		formatString: 0
+		lineageTag: e8718b1a-ec54-4384-9e61-63eed0c1f233
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Particulars = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Particular Details xlsx" = Source{[Name="Particular Details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Particular Details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Plan", type date}, {"Actual", type date}}),
+				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Changed Type", {{"Plan", null}}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Replaced Errors", "Particular", "Particular - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Duplicated Column", "Particular - Copy", Splitter.SplitTextByEachDelimiter({"."}, QuoteStyle.Csv, false), {"Particular - Copy.1", "Particular - Copy.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Particular - Copy.1", type text}, {"Particular - Copy.2", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Particular - Copy.2"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Removed Columns",{{"Particular - Copy.1", Int64.Type}}),
+				    #"Replaced Errors1" = Table.ReplaceErrorValues(#"Changed Type2", {{"Particular - Copy.1", 999}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Errors1",{{"Particular - Copy.1", "seq"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns",{{"Actual", type datetime}}),
+				    #"Replaced Errors2" = Table.ReplaceErrorValues(#"Changed Type3", {{"Actual", null}})
+				in
+				    #"Replaced Errors2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

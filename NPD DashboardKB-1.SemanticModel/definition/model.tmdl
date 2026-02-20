@@ -1,0 +1,63 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errors in queries that were loaded on 06-03-2025 14:21:23.
+queryGroup 'Query Errors - 06-03-2025 14:21:23'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 27-03-2025 14:31:24.
+queryGroup 'Query Errors - 27-03-2025 14:31:24'
+
+	annotation PBI_QueryGroupOrder = 1
+
+/// Errors in queries that were loaded on 29-05-2025 09:42:49.
+queryGroup 'Query Errors - 29-05-2025 09:42:49'
+
+	annotation PBI_QueryGroupOrder = 2
+
+/// Errors in queries that were loaded on 24-06-2025 12:59:54.
+queryGroup 'Query Errors - 24-06-2025 12:59:54'
+
+	annotation PBI_QueryGroupOrder = 3
+
+/// Errors in queries that were loaded on 24-06-2025 13:05:42.
+queryGroup 'Query Errors - 24-06-2025 13:05:42'
+
+	annotation PBI_QueryGroupOrder = 4
+
+annotation PBI_QueryOrder = ["Metrics","Phases","Sharepoint url","Sharepoint folder","Part Details","Particulars","Milestone Details","phase status","Customer segment","Projects-CM","X matrix","PDC table","Part images","4W1H-Analysis","Action_Plan","Bridge-Sheet","Bridge-Resp","Errors in Milestone Details","Action_plan-1","ProtoMonthPlan1","ProtoActivity1","ProtoPartsDetails1","ProtoActivity","ProtoPartsDetails","ProtoMonthPlan","Errors in ProtoMonthPlan","Completed Particulars Details","Completed parts Details","Errors in Particulars","Errors in Particulars (2)"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Metrics
+ref table Phases
+ref table 'Part Details'
+ref table Particulars
+ref table 'Milestone Details'
+ref table 'phase status'
+ref table 'Customer segment'
+ref table Projects-CM
+ref table 'X matrix'
+ref table 'PDC table'
+ref table 'Part images'
+ref table 4W1H-Analysis
+ref table Action_Plan
+ref table Bridge-Sheet
+ref table Bridge-Resp
+ref table Action_plan-1
+ref table ProtoActivity
+ref table ProtoPartsDetails
+ref table ProtoMonthPlan
+ref table 'Completed Particulars Details'
+ref table 'Completed parts Details'
+
+ref cultureInfo en-IN
+

@@ -1,0 +1,107 @@
+table 'phase status'
+	lineageTag: 29ad2078-edc2-4ca1-9772-2029960d8a65
+
+	column 'Part Number'
+		dataType: string
+		lineageTag: 7be111d5-768f-44d9-8f75-1b5b4433ef54
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phase ID'
+		dataType: string
+		lineageTag: 68510876-5801-44cf-af06-ed957a7752a8
+		summarizeBy: none
+		sourceColumn: Phase ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phase
+		dataType: string
+		lineageTag: 687864c0-b157-4d26-9ec2-09ff5da3461c
+		summarizeBy: none
+		sourceColumn: Phase
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 50777464-ea49-4d2d-9db9-048364b75b0b
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Plan
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 6b3f2664-66d7-49f3-a352-ae8582b54569
+		summarizeBy: none
+		sourceColumn: Plan
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Actual
+		dataType: dateTime
+		formatString: dd mmmm yyyy
+		lineageTag: 9ba21c08-c70b-4214-a343-f7adf1e64779
+		summarizeBy: none
+		sourceColumn: Actual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Formatted Date Actual' = ```
+			
+			FORMAT([Actual], "dd-mmm-yy")
+			
+			```
+		lineageTag: 2b91e1d1-be4f-4832-b62b-9f93ff963c7c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Formatted Date Plan' = ```
+			
+			FORMAT([Plan], "dd-mmm-yy")
+			
+			```
+		lineageTag: ef2c7a6b-2003-4ab6-bc87-3e88f84ca0fa
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'phase status' = m
+		mode: import
+		source =
+				let
+				    Source = #"Sharepoint folder",
+				    #"Phase Status Details xlsx" = Source{[Name="Phase Status Details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Phase Status Details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Part Number", type text}, {"Phase ID", type text}, {"Phase", type text}, {"Plan", type text}, {"Actual", type text}, {"Status", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","nan",null,Replacer.ReplaceValue,{"Plan"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","nan",null,Replacer.ReplaceValue,{"Actual"}),
+				    #"Inserted Parsed Date" = Table.AddColumn(#"Replaced Value1", "Parse", each Date.From(DateTimeZone.From([Plan])), type date),
+				    #"Removed Columns" = Table.RemoveColumns(#"Inserted Parsed Date",{"Plan"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Parse", "Plan"}}),
+				    #"Inserted Parsed Date1" = Table.AddColumn(#"Renamed Columns", "Parse", each Date.From(DateTimeZone.From([Actual])), type date),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Inserted Parsed Date1",{"Actual"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns1",{{"Parse", "Actual"}}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Renamed Columns1","Blank","",Replacer.ReplaceText,{"Status"})
+				in
+				    #"Replaced Value2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

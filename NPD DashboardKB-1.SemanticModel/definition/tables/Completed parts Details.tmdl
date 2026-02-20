@@ -1,0 +1,171 @@
+table 'Completed parts Details'
+	lineageTag: 345ce546-f074-4436-ac96-66f3e5aa0b30
+
+	column 'Project ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: a502401a-f62f-41cd-9ef9-7b4fefbdf950
+		summarizeBy: none
+		sourceColumn: Project ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Project Name'
+		dataType: string
+		lineageTag: c428cd07-f6aa-4aa2-b35a-bfe3306af664
+		summarizeBy: none
+		sourceColumn: Project Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer
+		dataType: string
+		lineageTag: 00396f61-6956-40d9-b808-56a8f23e6ad0
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 902b705b-187b-4781-8142-2dcb39a90224
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Updated Date'
+		dataType: int64
+		formatString: 0
+		lineageTag: 86552cd7-cf3c-4707-82f6-2e9c086c96a0
+		summarizeBy: none
+		sourceColumn: Last Updated Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Name'
+		dataType: string
+		lineageTag: b1fd48df-a6c6-48d1-afd9-1ec08cc80498
+		summarizeBy: none
+		sourceColumn: Part Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 41a0e01a-1ec9-4d80-90a1-166c288b3dc2
+		summarizeBy: none
+		sourceColumn: Part Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Dimension'
+		dataType: string
+		lineageTag: 21e7d810-43fc-401a-8f83-3e41665c6c02
+		summarizeBy: none
+		sourceColumn: Part Dimension
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Weight'
+		dataType: string
+		lineageTag: 12f1ae68-346a-4aa2-b8db-2c84ba31b86b
+		summarizeBy: none
+		sourceColumn: Part Weight
+
+		annotation SummarizationSetBy = Automatic
+
+	column Process
+		dataType: string
+		lineageTag: 82122c24-e270-41f8-8eb2-a617a3179b93
+		summarizeBy: none
+		sourceColumn: Process
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Casting/Post Casting Location'
+		dataType: string
+		lineageTag: 361470fa-c542-4788-8a58-336a2b2e1418
+		summarizeBy: none
+		sourceColumn: Casting/Post Casting Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Heat Treatment Location'
+		dataType: string
+		lineageTag: d033f8ed-2336-4b61-9f11-c5abc84a5f93
+		summarizeBy: none
+		sourceColumn: Heat Treatment Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Machining/Post Machining Loctaion'
+		dataType: string
+		lineageTag: d13e9d8f-0cff-4b60-a3b1-591abff544e1
+		summarizeBy: none
+		sourceColumn: Machining/Post Machining Loctaion
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Assembly Location'
+		dataType: string
+		lineageTag: b17d1fb2-ce67-4d0e-87e0-d868525e6970
+		summarizeBy: none
+		sourceColumn: Assembly Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Special Process (ED Coating) Location'
+		dataType: string
+		lineageTag: 38a2a161-9083-447e-b71f-256ab2bb8257
+		summarizeBy: none
+		sourceColumn: Special Process (ED Coating) Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Annual Volume, in No''s'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2bed41ec-ae43-48b4-a795-fbb780883ee2
+		summarizeBy: none
+		sourceColumn: Annual Volume, in No's
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AVOB (Rs Cr.)'
+		dataType: string
+		lineageTag: 064170de-230b-4152-bf69-a377b1dd3e9f
+		summarizeBy: none
+		sourceColumn: AVOB (Rs Cr.)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Status'
+		dataType: string
+		lineageTag: 5d3aa110-fc74-47fc-98c1-6b20edb27c5c
+		summarizeBy: none
+		sourceColumn: Current Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Completed parts Details' = m
+		mode: import
+		source =
+				let
+				    Source = SharePoint.Contents("https://apdscl.sharepoint.com/sites/NPDDashboard/", [ApiVersion = 15]),
+				    #"Shared Documents" = Source{[Name="Shared Documents"]}[Content],
+				    #"NPD Dashboard Tables" = #"Shared Documents"{[Name="NPD Dashboard Tables"]}[Content],
+				    #"Completed Part Details xlsx" = #"NPD Dashboard Tables"{[Name="Completed Part Details.xlsx"]}[Content],
+				    #"Imported Excel Workbook" = Excel.Workbook(#"Completed Part Details xlsx"),
+				    Sheet1_Sheet = #"Imported Excel Workbook"{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Project ID", Int64.Type}, {"Project Name", type text}, {"Customer", type text}, {"Customer ID", Int64.Type}, {"Last Updated Date", Int64.Type}, {"Part Name", type text}, {"Part Number", Int64.Type}, {"Part Dimension", type text}, {"Part Weight", type text}, {"Process", type text}, {"Casting/Post Casting Location", type text}, {"Heat Treatment Location", type text}, {"Machining/Post Machining Loctaion", type text}, {"Assembly Location", type text}, {"Special Process (ED Coating) Location", type text}, {"Annual Volume, in No's", Int64.Type}, {"AVOB (Rs Cr.)", type text}, {"Current Status", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
