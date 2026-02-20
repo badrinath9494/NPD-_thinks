@@ -36,7 +36,6 @@ relationship AutoDetected_3dacfec2-ebcf-4507-9258-3630305d56ec
 	toColumn: 'Part Details'.'Part Number'
 
 relationship d6c060dc-a48c-2b68-8480-f63afc70924a
-	crossFilteringBehavior: bothDirections
 	toCardinality: many
 	fromColumn: 'Part Details'.'Project ID'
 	toColumn: 'Milestone Details'.'Project ID'
