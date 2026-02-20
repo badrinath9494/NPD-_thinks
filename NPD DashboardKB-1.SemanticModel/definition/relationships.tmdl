@@ -49,11 +49,6 @@ relationship 57a92091-a6b9-4c9f-a8f2-9f84636aa958
 	fromColumn: Dim_Project.'Project ID'
 	toColumn: 'Part Details'.'Project ID'
 
-relationship c4f70f9c-9912-421a-83e4-437d8f0269ea
-	toCardinality: many
-	fromColumn: Dim_Responsibility.Responsibility
-	toColumn: Bridge-Resp.Responsibility
-
 relationship c4f70f9c-9912-421a-83e4-437d8f0269eb
 	toCardinality: many
 	fromColumn: Dim_Responsibility.Responsibility
@@ -104,11 +99,6 @@ relationship 723df8c9-f7f8-4133-abdf-a15cabcd7cab
 	toCardinality: many
 	fromColumn: Dim_Date.Date
 	toColumn: Action_plan-1.'Revised Commitment Date'
-
-relationship b8ddabc9-7e98-4d76-bcf1-2df5e63d4e27
-	toCardinality: many
-	fromColumn: Dim_Sheet.'Sheet Name'
-	toColumn: Bridge-Sheet.'Sheet Name'
 
 relationship b8ddabc9-7e98-4d76-bcf1-2df5e63d4e28
 	toCardinality: many
