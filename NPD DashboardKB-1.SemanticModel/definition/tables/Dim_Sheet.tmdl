@@ -1,0 +1,28 @@
+table Dim_Sheet
+	lineageTag: d6e9df65-4d4c-48ea-9b49-0b104ee98523
+
+	column 'Sheet Name'
+		dataType: string
+		lineageTag: 74f1f5da-82ee-45eb-a23f-7c3c3cb6eb9f
+		summarizeBy: none
+		sourceColumn: Sheet Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Sheet = m
+		mode: import
+		source =
+				let
+				    FromBridge = Table.SelectColumns(#"Bridge-Sheet", {"Sheet Name"}),
+				    FromProjects = Table.SelectColumns(#"Projects-CM", {"Sheet Name"}),
+				    FromXMatrix = Table.SelectColumns(#"X matrix", {"Sheet Name"}),
+				    Combined = Table.Combine({FromBridge, FromProjects, FromXMatrix}),
+				    NoBlanks = Table.SelectRows(Combined, each [Sheet Name] <> null and Text.Trim([Sheet Name]) <> ""),
+				    DistinctRows = Table.Distinct(NoBlanks, {"Sheet Name"})
+				in
+				    DistinctRows
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

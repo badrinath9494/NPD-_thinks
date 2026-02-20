@@ -35,52 +35,9 @@ relationship AutoDetected_3dacfec2-ebcf-4507-9258-3630305d56ec
 	fromColumn: Action_Plan.Part_Number
 	toColumn: 'Part Details'.'Part Number'
 
-relationship d6c060dc-a48c-2b68-8480-f63afc70924a
-	toCardinality: many
-	fromColumn: 'Part Details'.'Project ID'
-	toColumn: 'Milestone Details'.'Project ID'
-
-relationship 1b1c6699-45f7-9278-05ab-1c267a5a96f9
-	toCardinality: many
-	fromColumn: 4W1H-Analysis.'Part Number'
-	toColumn: Action_Plan.Part_Number
-
-relationship f7179bd9-3b69-98f0-8c14-131c833d700c
-	toCardinality: many
-	fromColumn: 'X matrix'.'Part Number'
-	toColumn: Projects-CM.'Part Number'
-
-relationship AutoDetected_473f34e9-90aa-41ee-83ec-5436fd509b1c
-	fromColumn: Projects-CM.'Sheet Name'
-	toColumn: Bridge-Sheet.'Sheet Name'
-
-relationship AutoDetected_e2cc0977-041b-46e0-87a0-62db7e3e4b57
-	fromColumn: 'X matrix'.'Sheet Name'
-	toColumn: Bridge-Sheet.'Sheet Name'
-
-relationship AutoDetected_775edf9c-938d-47c3-8791-63caec8f0754
-	fromColumn: Projects-CM.Responsibility
-	toColumn: Bridge-Resp.Responsibility
-
-relationship AutoDetected_1d112b52-4eee-4358-b893-185657d279c2
-	fromColumn: 'X matrix'.Responsibility
-	toColumn: Bridge-Resp.Responsibility
-
 relationship 35fe75ce-2d29-b953-5d11-8098bdedb0b5
 	fromColumn: Action_plan-1.'Part Number'
 	toColumn: 'Part Details'.'Part Number'
-
-relationship AutoDetected_009a1649-c28b-4dbc-b0f2-f0d693523c6d
-	fromColumn: ProtoActivity.'Part Number'
-	toColumn: ProtoPartsDetails.'Part Number'
-
-relationship 40e803dd-3083-3299-55b0-b3cc749abe6c
-	fromColumn: ProtoMonthPlan.'Part Number'
-	toColumn: ProtoPartsDetails.'Part Number'
-
-relationship AutoDetected_359505dd-58e9-4f80-ab90-25b6f480c2da
-	fromColumn: 'Completed Particulars Details'.'Part Number'
-	toColumn: 'Completed parts Details'.'Part Number'
 
 relationship 8cc71f61-b922-4b5d-973b-f04d195254a9
 	toCardinality: many
@@ -96,6 +53,16 @@ relationship c4f70f9c-9912-421a-83e4-437d8f0269ea
 	toCardinality: many
 	fromColumn: Dim_Responsibility.Responsibility
 	toColumn: Bridge-Resp.Responsibility
+
+relationship c4f70f9c-9912-421a-83e4-437d8f0269eb
+	toCardinality: many
+	fromColumn: Dim_Responsibility.Responsibility
+	toColumn: Projects-CM.Responsibility
+
+relationship c4f70f9c-9912-421a-83e4-437d8f0269ec
+	toCardinality: many
+	fromColumn: Dim_Responsibility.Responsibility
+	toColumn: 'X matrix'.Responsibility
 
 relationship 9f67fe75-f934-44cc-bae9-b016aff8deeb
 	toCardinality: many
@@ -137,4 +104,19 @@ relationship 723df8c9-f7f8-4133-abdf-a15cabcd7cab
 	toCardinality: many
 	fromColumn: Dim_Date.Date
 	toColumn: Action_plan-1.'Revised Commitment Date'
+
+relationship b8ddabc9-7e98-4d76-bcf1-2df5e63d4e27
+	toCardinality: many
+	fromColumn: Dim_Sheet.'Sheet Name'
+	toColumn: Bridge-Sheet.'Sheet Name'
+
+relationship b8ddabc9-7e98-4d76-bcf1-2df5e63d4e28
+	toCardinality: many
+	fromColumn: Dim_Sheet.'Sheet Name'
+	toColumn: Projects-CM.'Sheet Name'
+
+relationship b8ddabc9-7e98-4d76-bcf1-2df5e63d4e29
+	toCardinality: many
+	fromColumn: Dim_Sheet.'Sheet Name'
+	toColumn: 'X matrix'.'Sheet Name'
 
