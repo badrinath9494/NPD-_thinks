@@ -1,4 +1,4 @@
-Extracted from Metrics.tmdl on 2026-02-20 12:17:37
+Extracted from Metrics.tmdl on 2026-02-20 12:21:02
 Total measures: 82
 
 
@@ -218,7 +218,7 @@ Total measures: 82
 		lineageTag: 2dbe5e56-1f77-4bc1-87cf-24c075df7b64
 
 
-	measure 'Activities Not Started %' = DIVIDE([Particulars with green status & delay], [Total Particulars])
+	measure 'Activities Not Started %' = DIVIDE([Particulars not started], [Total Particulars])
 		formatString: 0%;-0%;0%
 		lineageTag: e53ac734-7ddd-434f-87e1-8b49703cd561
 
@@ -631,7 +631,18 @@ Total measures: 82
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 
-	measure 'ProtoActivity Not Started %' = DIVIDE([ProtoActivity with green status & delay], [Proto_Total Particulars])
+	measure 'ProtoActivity Not Started %' = ```
+			
+			VAR ProtoNotStarted =
+			    CALCULATE(
+			        COUNTROWS(ProtoActivity),
+			        ISBLANK(ProtoActivity[Actual]),
+			        ProtoActivity[Plan] >= TODAY()
+			    )
+			RETURN
+			    DIVIDE(ProtoNotStarted, [Proto_Total Particulars])
+			
+			```
 		lineageTag: 436bf4f8-8668-4436-abb5-845de94a35b9
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
